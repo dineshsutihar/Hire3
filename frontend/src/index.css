@@ -1,0 +1,160 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens via CSS vars for light & dark */
+:root {
+  --color-primary: #2563eb;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #6366f1;
+  --color-secondary-foreground: #ffffff;
+  --color-accent: #f59e0b;
+  --color-accent-foreground: #1f2937;
+  --color-bg: #f8f9fb;
+  --color-fg: #111827;
+  --color-muted: #6b7280;
+  --color-border: #e5e7eb;
+}
+
+.dark {
+  --color-primary: #3b82f6;
+  --color-primary-foreground: #ffffff;
+  --color-secondary: #8b5cf6;
+  --color-secondary-foreground: #ffffff;
+  --color-accent: #fbbf24;
+  --color-accent-foreground: #1f2937;
+  --color-bg: #0f1115;
+  --color-fg: #f3f4f6;
+  --color-muted: #9ca3af;
+  --color-border: #1f2937;
+}
+
+body {
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+  background: var(--color-bg);
+  color: var(--color-fg);
+}
+
+/* Minimal prose styling (since typography plugin not added yet) */
+.prose h1 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1.25;
+}
+.prose h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+.prose h3 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-top: 1.25rem;
+  margin-bottom: 0.5rem;
+}
+.prose p {
+  margin-bottom: 1rem;
+}
+.prose ul {
+  list-style: disc;
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+.prose ol {
+  list-style: decimal;
+  padding-left: 1.25rem;
+  margin-bottom: 1rem;
+}
+.prose li {
+  margin-bottom: 0.25rem;
+}
+.prose code {
+  background: rgba(0, 0, 0, 0.05);
+  padding: 0.15rem 0.35rem;
+  border-radius: 4px;
+  font-size: 0.85em;
+}
+.dark .prose code {
+  background: rgba(255, 255, 255, 0.08);
+}
+.prose a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+.prose blockquote {
+  border-left: 4px solid var(--color-primary);
+  padding-left: 0.75rem;
+  font-style: italic;
+  opacity: 0.85;
+}
+
+/* Utility refinements */
+.app-container {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 80rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+.card-surface {
+  background: #ffffff;
+  border-radius: 0.75rem;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.08),
+    0 6px 16px -4px rgba(0, 0, 0, 0.08);
+}
+.dark .card-surface {
+  background: #161a20;
+  border-color: var(--color-border);
+}
+.divider {
+  border-bottom: 1px solid var(--color-border);
+}
+.dark .divider {
+  border-color: var(--color-border);
+}
+
+/* Scrollbar (webkit) */
+*::-webkit-scrollbar {
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 8px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-muted);
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes slide-in-left {
+  from {
+    opacity: 0;
+    transform: translateX(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.animate-fade-in {
+  animation: fade-in 0.35s ease forwards;
+}
+.slide-in-left {
+  animation: slide-in-left 0.35s ease forwards;
+}

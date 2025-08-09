@@ -1,0 +1,10 @@
+node_modules
+dist
+dist-ssr
+build
+.vite
+*.log
+*.tsbuildinfo
+src/**/*.js
+src/**/*.js.map
+dist_test
