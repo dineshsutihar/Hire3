@@ -8,3 +8,5 @@ build
 src/**/*.js
 src/**/*.js.map
 dist_test
+.env.local
+.env
