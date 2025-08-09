@@ -75,26 +75,6 @@ export async function parseAndStoreSkills(userId: string, raw: string) {
       where: { id: userId },
       data: {
         skills: combined,
-        ...(enrichment.headline
-          ? { headline: String(enrichment.headline).slice(0, 120) }
-          : {}),
-        ...(enrichment.summary
-          ? { resumeSummary: String(enrichment.summary).slice(0, 1500) }
-          : {}),
-        ...(typeof enrichment.experience_years === "number"
-          ? {
-              experienceYears: Math.min(
-                Math.max(0, Math.trunc(enrichment.experience_years)),
-                60
-              ),
-            }
-          : {}),
-        ...(enrichment.education
-          ? { education: String(enrichment.education).slice(0, 120) }
-          : {}),
-        ...(enrichment.location
-          ? { location: String(enrichment.location).slice(0, 120) }
-          : {}),
       } as any,
     });
   } catch (e) {
