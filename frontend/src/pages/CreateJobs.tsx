@@ -19,12 +19,13 @@ export const CreateJobs = () => {
         skills: [] as string[],
         budget: '',
         location: '',
+        workMode: '',
         tags: ''
     });
 
     const postJob = async () => {
         if (!auth.token) return;
-        if (!form.title.trim() || !form.description.trim() || !form.location.trim() || !form.budget.trim() || form.skills.length === 0) {
+        if (!form.title.trim() || !form.description.trim() || !form.location.trim() || !form.budget.trim() || !form.workMode.trim() || form.skills.length === 0) {
             notify({ type: 'error', title: 'Missing fields', description: 'Please fill in all required fields.' });
             return;
         }
@@ -36,11 +37,13 @@ export const CreateJobs = () => {
                 technicalSkills: form.skills,
                 salaryRange: form.budget,
                 location: form.location.trim(),
+                workMode: form.workMode.trim(),
                 tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
             });
             notify({ type: 'success', title: 'Job posted!', description: `${job.title} has been posted successfully.` });
-            setForm({ title: '', description: '', skills: [], budget: '', location: '', tags: '' });
-            navigate('/manage-jobs');
+            // Reset form
+            setForm({ title: '', description: '', skills: [], budget: '', location: '', workMode: '', tags: '' });
+            navigate('/dashboard');
         } catch (e: any) {
             notify({ type: 'error', title: 'Post failed', description: e?.message || 'Could not post job.' });
         } finally {
@@ -55,7 +58,7 @@ export const CreateJobs = () => {
                     {/* Basic Information */}
                     <div className="space-y-4">
                         <h2 className="text-xl font-semibold border-b border-border/30 pb-2">Job Details</h2>
-                        <div className="grid gap-4 md:grid-cols-2">
+                        <div className="grid gap-4 md:grid-cols-3">
                             <div>
                                 <label className="block text-sm font-medium mb-1">Job Title *</label>
                                 <input
@@ -75,6 +78,20 @@ export const CreateJobs = () => {
                                     className="w-full rounded border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted"
                                     required
                                 />
+                            </div>
+                            <div>
+                                <label className="block text-sm font-medium mb-1">Work Mode *</label>
+                                <select
+                                    value={form.workMode}
+                                    onChange={e => setForm(f => ({ ...f, workMode: e.target.value }))}
+                                    className="w-full rounded border border-border bg-background px-3 py-2 text-sm text-foreground"
+                                    required
+                                >
+                                    <option value="">Select work mode</option>
+                                    <option value="Remote">Remote</option>
+                                    <option value="Onsite">Onsite</option>
+                                    <option value="Hybrid">Hybrid</option>
+                                </select>
                             </div>
                         </div>
                         <div>

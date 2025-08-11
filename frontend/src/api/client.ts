@@ -166,29 +166,19 @@ export interface JobInput {
   description: string;
   companyName?: string;
   technicalSkills?: string[];
-  softSkills?: string[];
-  experienceYears?: string;
-  experienceLevel?: string;
-  educationRequired?: string;
-  certifications?: string[];
-  licenses?: string[];
   role?: string;
   workMode?: string;
   location?: string;
-  travelRequired?: string;
-  workingHours?: string;
-  languagesRequired?: string[];
-  physicalRequirements?: string;
-  industry?: string;
-  companyType?: string;
   salaryRange?: string;
+  tags?: string[];
 }
 
 export interface Job extends JobInput {
   id: string;
+  status?: string;
+  applicantCount?: number;
+  viewCount?: number;
   skills?: string[];
-  certifications?: string[];
-  licenses?: string[];
   matchScore?: number;
   createdAt?: string;
   updatedAt?: string;
@@ -200,6 +190,7 @@ interface JobListResponse {
 
 export interface JobAnalytics {
   applications: number;
+  views?: number;
 }
 
 export async function listJobs(
@@ -345,5 +336,22 @@ export const api = {
   getUserApplications,
   getUserJobs,
   getJobApplicants,
+  updateApplicantStatus,
 };
+
+export async function updateApplicantStatus(
+  token: string,
+  jobId: string,
+  applicantId: string,
+  status: "applied" | "accepted" | "rejected"
+): Promise<void> {
+  await request<{ message: string }>(
+    `/jobs/${jobId}/applicants/${applicantId}/status`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ status }),
+    },
+    token
+  );
+}
 export default api;
