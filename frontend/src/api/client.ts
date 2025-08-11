@@ -16,7 +16,6 @@ async function request<T>(
   const headers: Record<string, string> = {
     ...((options.headers as Record<string, string>) || {}),
   };
-  // Only set JSON content-type if body is plain object/string
   const isFormData =
     typeof FormData !== "undefined" && options.body instanceof FormData;
   if (!isFormData && !headers["Content-Type"])
@@ -321,6 +320,22 @@ export async function getJobApplicants(
   }>(`/jobs/${jobId}/applicants`, {}, token);
 }
 
+export async function updateApplicantStatus(
+  token: string,
+  jobId: string,
+  applicantId: string,
+  status: "applied" | "accepted" | "rejected"
+): Promise<void> {
+  await request<{ message: string }>(
+    `/jobs/${jobId}/applicants/${applicantId}/status`,
+    {
+      method: "PATCH",
+      body: JSON.stringify({ status }),
+    },
+    token
+  );
+}
+
 export const api = {
   registerUser,
   loginUser,
@@ -339,19 +354,4 @@ export const api = {
   updateApplicantStatus,
 };
 
-export async function updateApplicantStatus(
-  token: string,
-  jobId: string,
-  applicantId: string,
-  status: "applied" | "accepted" | "rejected"
-): Promise<void> {
-  await request<{ message: string }>(
-    `/jobs/${jobId}/applicants/${applicantId}/status`,
-    {
-      method: "PATCH",
-      body: JSON.stringify({ status }),
-    },
-    token
-  );
-}
 export default api;
