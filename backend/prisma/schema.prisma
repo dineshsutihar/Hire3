@@ -1,3 +1,15 @@
+model JobApplication {
+  id        String   @id @default(cuid())
+  userId    String   @map("user_id")
+  jobId     String   @map("job_id")
+  status    String?  @default("pending")
+  createdAt DateTime @default(now()) @map("created_at")
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, jobId], name: "user_job_unique")
+  @@map("JobApplication")
+}
 generator client {
   provider = "prisma-client-js"
 }
@@ -20,6 +32,7 @@ model User {
   updatedAt     DateTime @updatedAt @map("updated_at")
   jobs          Job[]
   posts         Post[]
+  jobApplications JobApplication[]
 
   @@map("User")
 }
@@ -33,10 +46,13 @@ model Job {
   workMode    String   @map("work_mode")
   location    String
   tags        String   @default("[]")
+  viewCount   Int      @default(0) // Track job views
+  status      String   @default("active") // open, closed, paused
   createdAt   DateTime @default(now()) @map("created_at")
   updatedAt   DateTime @updatedAt @map("updated_at")
   userId      String   @map("user_id")
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  applications JobApplication[]
 
   @@map("Job")
 }

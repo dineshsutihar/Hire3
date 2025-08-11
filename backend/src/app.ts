@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import authRoutes from "./routes/authRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
+import jobsExtendedRoutes from "./routes/jobsExtendedRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
@@ -29,6 +30,7 @@ app.get("/api/health", (_req, res) => {
 app.use("/api", authRoutes);
 app.use("/api", profileRoutes);
 app.use("/api", jobRoutes);
+app.use("/api", jobsExtendedRoutes);
 app.use("/api", postRoutes);
 app.use("/api/ai", aiRoutes);
 
