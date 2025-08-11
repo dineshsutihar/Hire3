@@ -16,11 +16,6 @@ model User {
   linkedinUrl   String?  @map("linkedin_url")
   skills        String[] @default([]) 
   walletAddress String?  @map("wallet_address")
-  headline      String?  @map("headline")
-  resumeSummary String?  @db.Text @map("resume_summary")
-  experienceYears Int?   @map("experience_years_user")
-  education     String?  @map("education_user")
-  location      String?  @map("location_user")
   createdAt     DateTime @default(now()) @map("created_at")
   updatedAt     DateTime @updatedAt @map("updated_at")
   jobs          Job[]
