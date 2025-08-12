@@ -11,12 +11,11 @@ interface Application {
     id: string;
     jobId: string;
     jobTitle: string;
-    companyName?: string;
     appliedAt: string;
     status?: 'applied' | 'rejected';
     location?: string;
     workMode?: string;
-    salaryRange?: string;
+    budget?: string;
 }
 
 export const MyApplications = () => {
@@ -37,12 +36,11 @@ export const MyApplications = () => {
                     id: app.id,
                     jobId: app.jobId,
                     jobTitle: app.job.title,
-                    companyName: app.job.companyName,
                     appliedAt: app.createdAt,
                     status: app.status === 'pending' ? 'applied' : 'rejected',
                     location: app.job.location,
                     workMode: app.job.workMode,
-                    salaryRange: app.job.salaryRange,
+                    budget: app.job.budget,
                 }));
                 setApplications(formattedApplications);
             } catch (error: any) {
@@ -180,7 +178,8 @@ export const MyApplications = () => {
                                         )}
                                     </div>
 
-                                    <p className="text-muted-foreground mb-2">{application.companyName}</p>
+                                    {/* Company name not available in backend response */}
+
 
                                     <div className="flex flex-wrap gap-4 text-sm text-muted-foreground mb-3">
                                         {application.location && (
@@ -193,9 +192,9 @@ export const MyApplications = () => {
                                                 <Briefcase className="inline w-4 h-4" /> {application.workMode}
                                             </span>
                                         )}
-                                        {application.salaryRange && (
+                                        {application.budget && (
                                             <span className="flex items-center gap-1">
-                                                <IndianRupee className="inline w-4 h-4" /> {application.salaryRange} Rupees
+                                                <IndianRupee className="inline w-4 h-4" /> {application.budget} Rupees
                                             </span>
                                         )}
                                     </div>

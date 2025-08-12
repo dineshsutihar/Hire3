@@ -21,7 +21,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onViewApplicants, onCloseJob, ge
                     </span>
                 </div>
                 <p className="text-sm text-muted-foreground mb-3">
-                    {job.location} • {job.workMode} • {job.salaryRange}
+                    {job.location} • {job.workMode} • {job.budget}
                 </p>
                 <div className="flex items-center gap-4 text-sm text-muted-foreground">
                     <span>Posted {timeAgo(job.createdAt)}</span>

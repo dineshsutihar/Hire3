@@ -140,20 +140,20 @@ export const FindJobs = () => {
                             )}
                         </div>
                     </div>
-                    <div className="flex gap-2">
-                        <div className="flex gap-2 w-full">
+                    <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                        <div className="flex gap-2 w-full md:flex-1 min-w-0">
                             <input
                                 value={search}
                                 onChange={e => setSearch(e.target.value)}
                                 placeholder="Search title, company, description..."
-                                className="flex-1 rounded border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted"
+                                className="flex-1 min-w-0 rounded border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted"
                             />
-                            <Button variant="outline" size="sm" onClick={handleRefresh} disabled={loadingJobs}>
+                            <Button variant="outline" size="sm" onClick={handleRefresh} disabled={loadingJobs} className="shrink-0">
                                 {loadingJobs ? 'Loading...' : 'Refresh'}
                             </Button>
                         </div>
                         {/* Active filter chips */}
-                        <div className="flex items-center gap-2 flex-wrap justify-end">
+                        <div className="flex items-center gap-2 md:justify-end w-full md:w-auto md:flex-nowrap overflow-x-auto whitespace-nowrap">
                             {[
                                 filters.skill ? { key: 'skill', label: `Skill: ${filters.skill}` } : null,
                                 filters.location ? { key: 'location', label: `Location: ${filters.location}` } : null,
@@ -161,13 +161,6 @@ export const FindJobs = () => {
                             ].filter(Boolean).map((chip: any) => (
                                 <span key={chip.key} className="inline-flex items-center gap-1 px-2 py-1 rounded bg-primary/10 text-xs text-primary">
                                     {chip.label}
-                                    <button
-                                        className="hover:text-primary/70"
-                                        onClick={() => setFilters(f => ({ ...f, [chip.key]: '' }))}
-                                        aria-label={`Remove ${chip.key} filter`}
-                                    >
-                                        ×
-                                    </button>
                                 </span>
                             ))}
                             {Object.values(filters).some(v => v) && (

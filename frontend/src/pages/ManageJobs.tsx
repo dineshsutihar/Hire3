@@ -15,14 +15,13 @@ import JobCard from '../components/managejobs/JobCard';
 interface JobPosting {
     id: string;
     title: string;
-    companyName: string;
     createdAt: string;
     status: string;
     applicantCount: number;
     viewCount: number;
     location?: string;
     workMode?: string;
-    salaryRange?: string;
+    budget?: string;
     skills?: string[];
 }
 
@@ -62,14 +61,13 @@ const ManageJobs: React.FC = () => {
                 const formattedJobs: JobPosting[] = response.jobs.map(job => ({
                     id: job.id,
                     title: job.title,
-                    companyName: job.companyName || '',
                     createdAt: job.createdAt || new Date().toISOString(),
                     status: job.status || 'active',
                     applicantCount: 0,
                     viewCount: 0,
                     location: job.location || 'Not specified',
                     workMode: job.workMode || 'Not specified',
-                    salaryRange: job.salaryRange || 'Not specified',
+                    budget: job.budget || 'Not specified',
                     skills: job.skills || [],
                 }));
                 setJobs(formattedJobs);

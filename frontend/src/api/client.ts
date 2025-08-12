@@ -163,12 +163,10 @@ export async function getJobMatches(
 export interface JobInput {
   title: string;
   description: string;
-  companyName?: string;
-  technicalSkills?: string[];
-  role?: string;
+  skills?: string[];
   workMode?: string;
   location?: string;
-  salaryRange?: string;
+  budget?: string;
   tags?: string[];
 }
 
@@ -177,7 +175,6 @@ export interface Job extends JobInput {
   status?: string;
   applicantCount?: number;
   viewCount?: number;
-  skills?: string[];
   matchScore?: number;
   createdAt?: string;
   updatedAt?: string;

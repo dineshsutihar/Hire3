@@ -34,8 +34,8 @@ export const CreateJobs = () => {
             const job = await createJob(auth.token, {
                 title: form.title.trim(),
                 description: form.description.trim(),
-                technicalSkills: form.skills,
-                salaryRange: form.budget,
+                skills: form.skills,
+                budget: form.budget,
                 location: form.location.trim(),
                 workMode: form.workMode.trim(),
                 tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
