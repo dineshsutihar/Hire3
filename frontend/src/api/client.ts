@@ -333,6 +333,50 @@ export async function updateApplicantStatus(
   );
 }
 
+// Posts API
+export interface PostInput {
+  title: string;
+  content: string;
+  type: "advice" | "update" | string;
+  tags?: string[];
+}
+
+export interface Post extends PostInput {
+  id: string;
+  userId: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export async function listPosts(opts?: {
+  search?: string;
+  tag?: string;
+  type?: string;
+  userId?: string;
+}): Promise<Post[]> {
+  const q = new URLSearchParams();
+  if (opts?.search) q.set("search", opts.search);
+  if (opts?.tag) q.set("tag", opts.tag);
+  if (opts?.type) q.set("type", opts.type);
+  if (opts?.userId) q.set("userId", opts.userId);
+  return request<Post[]>(`/posts?${q.toString()}`);
+}
+
+export async function createPost(
+  token: string,
+  input: PostInput
+): Promise<Post> {
+  return request<Post>(
+    `/posts`,
+    { method: "POST", body: JSON.stringify(input) },
+    token
+  );
+}
+
+export async function getMyPosts(token: string): Promise<Post[]> {
+  return request<Post[]>(`/my-posts`, {}, token);
+}
+
 export const api = {
   registerUser,
   loginUser,
@@ -349,6 +393,9 @@ export const api = {
   getUserJobs,
   getJobApplicants,
   updateApplicantStatus,
+  listPosts,
+  createPost,
+  getMyPosts,
 };
 
 export default api;
