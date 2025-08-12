@@ -33,6 +33,7 @@ model User {
   jobs          Job[]
   posts         Post[]
   jobApplications JobApplication[]
+  payments      Payment[]
 
   @@map("User")
 }
@@ -69,4 +70,18 @@ model Post {
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@map("Post")
+}
+
+model Payment {
+  id             String   @id @default(cuid())
+  userId         String   @map("user_id")
+  signature      String   @unique
+  amountLamports Int
+  fromAddress    String   @map("from_address")
+  toAddress      String   @map("to_address")
+  status         String   @default("confirmed")
+  createdAt      DateTime @default(now()) @map("created_at")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("Payment")
 }

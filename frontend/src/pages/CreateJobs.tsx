@@ -7,6 +7,8 @@ import { SkillInput } from '../components/SkillInput';
 import { createJob } from '../api/client';
 import { useToast } from '../components/Toast';
 import { useNavigate } from 'react-router-dom';
+import { ensurePlatformFeePaid } from '../web3/solana';
+import { verifyPayment, getPaymentRequirements } from '../api/client';
 
 export const CreateJobs = () => {
     const auth = useRecoilValue(authAtom);
@@ -31,6 +33,18 @@ export const CreateJobs = () => {
         }
         setPosting(true);
         try {
+            // 1) Require Solana platform fee payment before posting
+            try {
+                // fetch required lamports from backend to avoid mismatches
+                const { requiredLamports } = await getPaymentRequirements();
+                const { signature } = await ensurePlatformFeePaid(requiredLamports);
+                // Verify and log on backend (server computes requirement again)
+                await verifyPayment(auth.token, { signature });
+                console.log('Platform fee paid and verified. Tx:', signature);
+            } catch (e: any) {
+                throw new Error(e?.message || 'Payment verification failed.');
+            }
+
             const job = await createJob(auth.token, {
                 title: form.title.trim(),
                 description: form.description.trim(),

@@ -48,6 +48,7 @@ export const Navbar = () => {
                     <div className="hidden md:flex items-center gap-5">
                         {authed && <NavLink to="/posts" className={activeCls}>Posts</NavLink>}
                         {authed && <NavLink to="/dashboard" className={activeCls}>Dashboard</NavLink>}
+                        {authed && <NavLink to="/payments" className={activeCls}>Payments</NavLink>}
                     </div>
                 </div>
                 <div className="flex items-center gap-3">

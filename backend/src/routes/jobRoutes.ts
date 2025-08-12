@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.js";
 import { prisma } from "../prisma.js";
+import { getRequiredLamports } from "./paymentRoutes.js";
 
 const router = Router();
 
@@ -106,6 +107,25 @@ router.post("/jobs", authMiddleware, async (req, res, next) => {
       return res
         .status(400)
         .json({ message: "title, description, workMode, location required" });
+    // Enforce payment: must have a recent confirmed payment with enough lamports in last 24h
+    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const required = getRequiredLamports();
+    const paid = await (prisma as any).payment.findFirst({
+      where: {
+        userId: req.user!.sub,
+        status: "confirmed",
+        amountLamports: { gte: required },
+        createdAt: { gte: twentyFourHoursAgo },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    if (!paid) {
+      return res.status(402).json({
+        message:
+          "Payment required: please pay platform fee before posting a job.",
+      });
+    }
+
     const job = await prisma.job.create({
       data: {
         title,

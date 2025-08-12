@@ -18,10 +18,13 @@ async function request<T>(
   };
   const isFormData =
     typeof FormData !== "undefined" && options.body instanceof FormData;
+
   if (!isFormData && !headers["Content-Type"])
     headers["Content-Type"] = "application/json";
+
   if (token) headers["Authorization"] = `Bearer ${token}`;
   const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+
   if (!res.ok) {
     let message = res.statusText;
     try {
@@ -30,6 +33,7 @@ async function request<T>(
     } catch {}
     throw { status: res.status, message } as ApiError;
   }
+
   if (res.status === 204) return undefined as unknown as T;
   return res.json() as Promise<T>;
 }
@@ -227,6 +231,37 @@ export async function createJob(token: string, input: JobInput): Promise<Job> {
   );
 }
 
+export async function verifyPayment(
+  token: string,
+  input: { signature: string; expectedLamports?: number }
+): Promise<{
+  id: string;
+  userId: string;
+  signature: string;
+  amountLamports: number;
+  fromAddress: string;
+  toAddress: string;
+  status: string;
+  createdAt: string;
+}> {
+  return request(
+    `/payments/verify`,
+    {
+      method: "POST",
+      body: JSON.stringify(input),
+    },
+    token
+  );
+}
+
+export async function getPaymentRequirements(): Promise<{
+  requiredLamports: number;
+  admin: string;
+  rpc: string;
+}> {
+  return request(`/payments/required`);
+}
+
 export async function updateJob(
   token: string,
   jobId: string,
@@ -377,6 +412,27 @@ export async function getMyPosts(token: string): Promise<Post[]> {
   return request<Post[]>(`/my-posts`, {}, token);
 }
 
+// Payments
+export interface PaymentRecord {
+  id: string;
+  userId: string;
+  signature: string;
+  amountLamports: number;
+  fromAddress: string;
+  toAddress: string;
+  status: string;
+  createdAt: string;
+}
+
+export async function listMyPayments(token: string): Promise<PaymentRecord[]> {
+  const res = await request<{ payments: PaymentRecord[] }>(
+    `/my-payments`,
+    {},
+    token
+  );
+  return res.payments;
+}
+
 export const api = {
   registerUser,
   loginUser,
@@ -396,6 +452,8 @@ export const api = {
   listPosts,
   createPost,
   getMyPosts,
+  listMyPayments,
+  getPaymentRequirements,
 };
 
 export default api;

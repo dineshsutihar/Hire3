@@ -6,6 +6,7 @@ import profileRoutes from "./routes/profileRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
 import jobsExtendedRoutes from "./routes/jobsExtendedRoutes.js";
 import postRoutes from "./routes/postRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 import { initPrismaShutdownHooks } from "./prisma.js";
@@ -32,6 +33,7 @@ app.use("/api", profileRoutes);
 app.use("/api", jobRoutes);
 app.use("/api", jobsExtendedRoutes);
 app.use("/api", postRoutes);
+app.use("/api", paymentRoutes);
 app.use("/api/ai", aiRoutes);
 
 // 404 fallback

@@ -7,6 +7,7 @@ import Register from './pages/Register';
 import Login from './pages/Login';
 import Profile from './pages/Profile';
 import Dashboard from './pages/Dashboard';
+import Payments from './pages/Payments';
 import JobDetail from './pages/JobDetail';
 import { useRecoilValue } from 'recoil';
 import { isAuthedSelector } from './store/auth';
@@ -28,6 +29,7 @@ function App() {
                     <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
                     <Route path="/posts" element={<PrivateRoute><Posts /></PrivateRoute>} />
                     <Route path="/dashboard" element={<PrivateRoute><Dashboard /></PrivateRoute>} />
+                    <Route path="/payments" element={<PrivateRoute><Payments /></PrivateRoute>} />
                     <Route path="/jobs/:id" element={<PrivateRoute><JobDetail /></PrivateRoute>} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                 </Routes>
