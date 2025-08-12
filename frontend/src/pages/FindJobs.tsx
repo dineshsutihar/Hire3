@@ -1,14 +1,12 @@
 import React from 'react';
-import { useRecoilValue, useRecoilState } from 'recoil';
-import { userSelector, authAtom } from '../store/auth';
+import { useRecoilState } from 'recoil';
+import { authAtom } from '../store/auth';
 import Button from '../components/Button';
 import { Card, CardTitle } from '../components/Card';
 import { listJobs, applyToJob, getJobAnalytics } from '../api/client';
 import { useToast } from '../components/Toast';
-import { useSearchParams } from 'react-router-dom';
 import { MapPin, Briefcase, IndianRupee, Users, Clock } from 'lucide-react';
 
-// Extend Job type to match backend
 type Job = {
     id: string;
     title: string;
@@ -24,10 +22,8 @@ type Job = {
 };
 
 export const FindJobs = () => {
-    const user = useRecoilValue(userSelector);
     const [auth] = useRecoilState(authAtom);
     const { notify } = useToast();
-    const [searchParams, setSearchParams] = useSearchParams();
     const [jobs, setJobs] = React.useState<Job[]>([]);
     const [selectedJob, setSelectedJob] = React.useState<Job | null>(null);
     const [nextCursor, setNextCursor] = React.useState<string | null>(null);
@@ -47,14 +43,15 @@ export const FindJobs = () => {
         loadingRef.current = true;
         setLoadingJobs(true);
         try {
-            // Map skill filter to role for backend, and trim whitespace
+            // Build backend query and include search terms from active text filters
             const opts: any = {
-                search: search || undefined,
                 ...Object.fromEntries(Object.entries(filters).filter(([_, v]) => v))
             };
-            if (filters.skill) {
-                opts.role = filters.skill.trim();
-            }
+            const searchTerms: string[] = [];
+            if (search && search.trim()) searchTerms.push(search.trim());
+            if (filters.skill && filters.skill.trim()) searchTerms.push(filters.skill.trim());
+            if (filters.tag && filters.tag.trim()) searchTerms.push(filters.tag.trim());
+            if (searchTerms.length) opts.search = searchTerms.join(' ');
             const data = await listJobs(25, cursor, opts);
             // Ensure skills and tags are always arrays
             const normalizedJobs = data.jobs.map((job: any) => ({
@@ -70,7 +67,24 @@ export const FindJobs = () => {
                         ? (() => { try { return JSON.parse(job.tags); } catch { return []; } })()
                         : [],
             }));
-            setJobs(j => append ? [...j, ...normalizedJobs] : normalizedJobs);
+            // Client-side filtering fallback for fields not fully supported by backend
+            const filteredJobs = normalizedJobs.filter((job: any) => {
+                let ok = true;
+                if (filters.skill && filters.skill.trim()) {
+                    const needle = filters.skill.trim().toLowerCase();
+                    ok = ok && (job.skills || []).some((s: string) => (s || '').toLowerCase().includes(needle));
+                }
+                if (filters.location && filters.location.trim()) {
+                    const needle = filters.location.trim().toLowerCase();
+                    ok = ok && ((job.location || '').toLowerCase().includes(needle));
+                }
+                if (filters.tag && filters.tag.trim()) {
+                    const needle = filters.tag.trim().toLowerCase();
+                    ok = ok && (job.tags || []).some((t: string) => String(t || '').toLowerCase().includes(needle));
+                }
+                return ok;
+            });
+            setJobs(j => append ? [...j, ...filteredJobs] : filteredJobs);
             setNextCursor(data.nextCursor);
         } catch (e: any) {
             notify({ type: 'error', title: 'Load failed', description: e?.message });
@@ -119,9 +133,6 @@ export const FindJobs = () => {
                 <div className="flex flex-col gap-3">
                     <div className="flex items-center justify-between">
                         <div className="flex gap-2">
-                            <Button variant="outline" size="sm" onClick={handleRefresh} disabled={loadingJobs}>
-                                {loadingJobs ? 'Loading...' : 'Refresh'}
-                            </Button>
                             {selectedJob && (
                                 <Button variant="outline" size="sm" onClick={() => setSelectedJob(null)}>
                                     Show Filters
@@ -130,26 +141,42 @@ export const FindJobs = () => {
                         </div>
                     </div>
                     <div className="flex gap-2">
-                        <input
-                            value={search}
-                            onChange={e => setSearch(e.target.value)}
-                            placeholder="Search title, company, description..."
-                            className="flex-1 rounded border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted"
-                        />
-                        {/* Active filter indicators */}
-                        <div className="flex items-center gap-1">
-                            {Object.entries(filters).some(([_, value]) => value) && (
-                                <div className="flex items-center gap-1 px-2 py-1 bg-primary/10 rounded text-xs">
-                                    <span className="text-primary font-medium">
-                                        {Object.values(filters).filter(v => v).length} filter{Object.values(filters).filter(v => v).length > 1 ? 's' : ''}
-                                    </span>
+                        <div className="flex gap-2 w-full">
+                            <input
+                                value={search}
+                                onChange={e => setSearch(e.target.value)}
+                                placeholder="Search title, company, description..."
+                                className="flex-1 rounded border border-border bg-background px-3 py-2 text-sm text-foreground placeholder:text-muted"
+                            />
+                            <Button variant="outline" size="sm" onClick={handleRefresh} disabled={loadingJobs}>
+                                {loadingJobs ? 'Loading...' : 'Refresh'}
+                            </Button>
+                        </div>
+                        {/* Active filter chips */}
+                        <div className="flex items-center gap-2 flex-wrap justify-end">
+                            {[
+                                filters.skill ? { key: 'skill', label: `Skill: ${filters.skill}` } : null,
+                                filters.location ? { key: 'location', label: `Location: ${filters.location}` } : null,
+                                filters.tag ? { key: 'tag', label: `Tag: ${filters.tag}` } : null,
+                            ].filter(Boolean).map((chip: any) => (
+                                <span key={chip.key} className="inline-flex items-center gap-1 px-2 py-1 rounded bg-primary/10 text-xs text-primary">
+                                    {chip.label}
                                     <button
-                                        onClick={() => setFilters({ skill: '', location: '', tag: '' })}
-                                        className="text-primary hover:text-primary/70 ml-1"
+                                        className="hover:text-primary/70"
+                                        onClick={() => setFilters(f => ({ ...f, [chip.key]: '' }))}
+                                        aria-label={`Remove ${chip.key} filter`}
                                     >
-                                        x
+                                        ×
                                     </button>
-                                </div>
+                                </span>
+                            ))}
+                            {Object.values(filters).some(v => v) && (
+                                <button
+                                    className="text-xs text-muted-foreground hover:text-foreground underline"
+                                    onClick={() => setFilters({ skill: '', location: '', tag: '' })}
+                                >
+                                    Clear all
+                                </button>
                             )}
                         </div>
                     </div>

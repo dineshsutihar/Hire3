@@ -70,7 +70,7 @@ export const Dashboard = () => {
     return (
         <div className="min-h-screen bg-background">
             {/* Top Navigation */}
-            <div className="border-b border-border bg-background/95 backdrop-blur sticky top-0 z-40">
+            <div className="border-b border-border bg-background/95 backdrop-blur sticky">
                 <div className="mx-auto max-w-7xl px-4">
                     <div className="flex items-center h-16">
                         <div className="flex items-center gap-10 mx-auto">
