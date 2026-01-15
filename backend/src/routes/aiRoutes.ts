@@ -33,14 +33,26 @@ router.post(
         return res.status(400).json({ message: "Resume file required" });
       }
 
-      const text = await extractTextFromFile(req.file.path, req.file.mimetype);
+      // Check file size (max 10MB)
+      if (req.file.size > 10 * 1024 * 1024) {
+        fs.unlink(req.file.path).catch(() => {});
+        return res.status(400).json({ message: "File size must be less than 10MB" });
+      }
+
+      let text: string;
+      try {
+        text = await extractTextFromFile(req.file.path, req.file.mimetype);
+      } catch (parseError: any) {
+        fs.unlink(req.file.path).catch(() => {});
+        return res.status(400).json({ message: parseError.message });
+      }
 
       fs.unlink(req.file.path).catch(() => {});
 
       if (!text.trim()) {
         return res
           .status(400)
-          .json({ message: "Failed to extract text from resume" });
+          .json({ message: "Failed to extract text from resume. The PDF may be empty or contain only images." });
       }
 
       const result = await parseAndStoreSkills(req.user!.sub, text);

@@ -15,30 +15,61 @@ export async function extractTextFromFile(
     );
   }
 
+  const dataBuffer = readFileSync(filePath);
+  
+  // Check if file is actually a PDF (magic bytes: %PDF)
+  const header = dataBuffer.slice(0, 5).toString("utf-8");
+  if (!header.startsWith("%PDF")) {
+    throw new Error(
+      "Invalid PDF file. The file doesn't appear to be a valid PDF document."
+    );
+  }
+
   try {
-    // Dynamic import to avoid issues at startup
-    const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
-    pdfjs.GlobalWorkerOptions.workerSrc = "";
-
-    const dataBuffer = readFileSync(filePath);
-    const data = new Uint8Array(dataBuffer);
-    const pdf = await pdfjs.getDocument({ data, useSystemFonts: true }).promise;
-
-    let fullText = "";
-    for (let i = 1; i <= pdf.numPages; i++) {
-      const page = await pdf.getPage(i);
-      const textContent = await page.getTextContent();
-      const pageText = textContent.items
-        .map((item: any) => item.str)
-        .join(" ");
-      fullText += pageText + "\n";
+    // Use pdf-parse lib directly to avoid test file loading issue
+    const pdfParse = (await import("pdf-parse/lib/pdf-parse.js")).default;
+    
+    // Suppress harmless TrueType font warnings from pdfjs
+    const originalWarn = console.warn;
+    console.warn = (...args: any[]) => {
+      const msg = args[0]?.toString() || "";
+      if (!msg.includes("TT: undefined function")) {
+        originalWarn.apply(console, args);
+      }
+    };
+    
+    const result = await pdfParse(dataBuffer);
+    
+    // Restore console.warn
+    console.warn = originalWarn;
+    
+    const trimmedText = result.text?.trim();
+    
+    if (!trimmedText) {
+      throw new Error("No text content could be extracted from the PDF. The PDF may contain only images or scanned content.");
     }
 
-    return fullText.trim();
-  } catch (err) {
-    console.error("PDF parsing error:", err);
+    return trimmedText;
+  } catch (err: any) {
+    console.error("PDF parsing error details:", {
+      message: err?.message,
+      name: err?.name,
+      stack: err?.stack?.split("\n").slice(0, 3)
+    });
+    
+    // Provide more specific error messages
+    if (err?.message?.includes("Invalid PDF")) {
+      throw err;
+    }
+    if (err?.message?.includes("password")) {
+      throw new Error("PDF file is password protected. Please upload an unprotected PDF.");
+    }
+    if (err?.message?.includes("No text")) {
+      throw err;
+    }
+    
     throw new Error(
-      "Failed to parse PDF file. Please ensure it's a valid PDF document."
+      "Failed to parse PDF file. Please ensure it's a valid, unprotected PDF document with text content (not scanned images)."
     );
   }
 }
@@ -51,8 +82,8 @@ export async function parseAndStoreSkills(userId: string, raw: string) {
   if (apiKey) {
     try {
       const genAI = new GoogleGenerativeAI(apiKey);
-      // console.log(raw);
-      const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+      // Use gemini-2.0-flash which is the current fast model
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
       const prompt = `Extract a JSON object with these keys from the resume text:\nskills: string[] (unique, lower-case, deduped), headline: string|null, summary: string|null, experience_years: number|null, education: string|null, location: string|null. Only output JSON, no markdown.\nResume:\n${raw}\nEND`;
 
       let text = (await model.generateContent(prompt)).response.text().trim();

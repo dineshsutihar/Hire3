@@ -87,3 +87,45 @@ declare module "multer" {
   function multer(opts?: Options): Multer;
   export default multer;
 }
+
+declare module "pdf-parse" {
+  interface PDFInfo {
+    PDFFormatVersion?: string;
+    IsAcroFormPresent?: boolean;
+    IsXFAPresent?: boolean;
+    Title?: string;
+    Author?: string;
+    Subject?: string;
+    Creator?: string;
+    Producer?: string;
+    CreationDate?: string;
+    ModDate?: string;
+  }
+  interface PDFMeta {
+    info?: PDFInfo;
+    metadata?: any;
+  }
+  interface PDFData {
+    numpages: number;
+    numrender: number;
+    info: PDFInfo;
+    metadata: any;
+    text: string;
+    version: string;
+  }
+  function pdfParse(dataBuffer: Buffer, options?: any): Promise<PDFData>;
+  export default pdfParse;
+}
+
+declare module "pdf-parse/lib/pdf-parse.js" {
+  interface PDFData {
+    numpages: number;
+    numrender: number;
+    info: any;
+    metadata: any;
+    text: string;
+    version: string;
+  }
+  function pdfParse(dataBuffer: Buffer, options?: any): Promise<PDFData>;
+  export default pdfParse;
+}
