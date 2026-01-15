@@ -176,7 +176,7 @@ const PostComposer: React.FC<PostComposerProps> = ({ onCreated, onClose }) => {
                         <Trash2 size={16} />
                     </button>
                     <div className="absolute bottom-2 left-2 px-2 py-1 bg-black/60 text-white text-xs rounded-md">
-                        {imageFile?.name} ({(imageFile?.size || 0 / 1024 / 1024).toFixed(2)} MB)
+                        {imageFile?.name} ({((imageFile?.size || 0) / 1024 / 1024).toFixed(2)} MB)
                     </div>
                 </div>
             )}
