@@ -19,11 +19,13 @@ export const CreateJobs = () => {
     const [currentStep, setCurrentStep] = React.useState(1);
     const [form, setForm] = React.useState({
         title: '',
+        companyName: '',
         description: '',
         skills: [] as string[],
         budget: '',
         location: '',
         workMode: '',
+        experienceLevel: '',
         tags: ''
     });
 
@@ -57,15 +59,17 @@ export const CreateJobs = () => {
 
             const job = await createJob(auth.token, {
                 title: form.title.trim(),
+                companyName: form.companyName.trim() || undefined,
                 description: form.description.trim(),
                 skills: form.skills,
                 budget: form.budget,
                 location: form.location.trim(),
                 workMode: form.workMode.trim(),
+                experienceLevel: form.experienceLevel || undefined,
                 tags: form.tags.split(',').map(t => t.trim()).filter(Boolean),
             });
             notify({ type: 'success', title: 'Job posted!', description: `${job.title} has been posted successfully.` });
-            setForm({ title: '', description: '', skills: [], budget: '', location: '', workMode: '', tags: '' });
+            setForm({ title: '', companyName: '', description: '', skills: [], budget: '', location: '', workMode: '', experienceLevel: '', tags: '' });
             navigate('/dashboard');
         } catch (e: any) {
             notify({ type: 'error', title: 'Post failed', description: e?.message || 'Could not post job.' });
@@ -122,17 +126,31 @@ export const CreateJobs = () => {
                         </div>
 
                         <div className="space-y-5">
-                            <div>
-                                <label className="block text-sm font-medium mb-2">
-                                    Job Title <span className="text-red-500">*</span>
-                                </label>
-                                <div className="relative">
-                                    <Briefcase size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                            <div className="grid gap-5 md:grid-cols-2">
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">
+                                        Job Title <span className="text-red-500">*</span>
+                                    </label>
+                                    <div className="relative">
+                                        <Briefcase size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                                        <input
+                                            value={form.title}
+                                            onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+                                            placeholder="e.g., Senior Frontend Developer"
+                                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                                        />
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label className="block text-sm font-medium mb-2">
+                                        Company Name
+                                    </label>
                                     <input
-                                        value={form.title}
-                                        onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
-                                        placeholder="e.g., Senior Frontend Developer"
-                                        className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                                        value={form.companyName}
+                                        onChange={e => setForm(f => ({ ...f, companyName: e.target.value }))}
+                                        placeholder="e.g., TechCorp Inc."
+                                        className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
                                     />
                                 </div>
                             </div>
@@ -234,16 +252,31 @@ export const CreateJobs = () => {
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium mb-2">Tags (optional)</label>
-                                    <div className="relative">
-                                        <Tags size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
-                                        <input
-                                            value={form.tags}
-                                            onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
-                                            placeholder="e.g., urgent, contract, visa-sponsor"
-                                            className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
-                                        />
-                                    </div>
+                                    <label className="block text-sm font-medium mb-2">Experience Level</label>
+                                    <select
+                                        value={form.experienceLevel}
+                                        onChange={e => setForm(f => ({ ...f, experienceLevel: e.target.value }))}
+                                        className="w-full px-4 py-3 rounded-lg border border-border bg-background text-foreground focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                                    >
+                                        <option value="">Select level</option>
+                                        <option value="Entry">Entry Level (0-2 years)</option>
+                                        <option value="Mid">Mid Level (2-5 years)</option>
+                                        <option value="Senior">Senior (5+ years)</option>
+                                        <option value="Lead">Lead / Principal</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label className="block text-sm font-medium mb-2">Tags (optional)</label>
+                                <div className="relative">
+                                    <Tags size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+                                    <input
+                                        value={form.tags}
+                                        onChange={e => setForm(f => ({ ...f, tags: e.target.value }))}
+                                        placeholder="e.g., urgent, contract, visa-sponsor"
+                                        className="w-full pl-10 pr-4 py-3 rounded-lg border border-border bg-background text-foreground placeholder:text-muted focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                                    />
                                 </div>
                             </div>
                         </div>
