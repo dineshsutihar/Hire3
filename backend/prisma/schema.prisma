@@ -40,21 +40,27 @@ model User {
 }
 
 model Job {
-  id          String   @id @default(cuid())
-  title       String
-  description String
-  skills      String   @default("[]") 
-  budget      String?
-  workMode    String   @map("work_mode")
-  location    String
-  tags        String   @default("[]")
-  viewCount   Int      @default(0) // Track job views
-  status      String   @default("active") // open, closed, paused
-  createdAt   DateTime @default(now()) @map("created_at")
-  updatedAt   DateTime @updatedAt @map("updated_at")
-  userId      String   @map("user_id")
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  applications JobApplication[]
+  id              String   @id @default(cuid())
+  title           String
+  description     String
+  companyName     String?  @map("company_name")
+  role            String?  // e.g., "Full-time", "Contract"
+  industry        String?
+  salaryRange     String?  @map("salary_range") // e.g., "$80k-$120k"
+  experienceLevel String?  @map("experience_level") // "Entry", "Mid", "Senior"
+  companyType     String?  @map("company_type") // "Startup", "Enterprise"
+  skills          String   @default("[]") 
+  budget          String?
+  workMode        String   @map("work_mode")
+  location        String
+  tags            String   @default("[]")
+  viewCount       Int      @default(0) // Track job views
+  status          String   @default("active") // open, closed, paused
+  createdAt       DateTime @default(now()) @map("created_at")
+  updatedAt       DateTime @updatedAt @map("updated_at")
+  userId          String   @map("user_id")
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  applications    JobApplication[]
 
   @@map("Job")
 }
