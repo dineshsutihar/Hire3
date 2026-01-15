@@ -5,7 +5,7 @@ import Button from '../components/Button';
 import { Card, CardTitle } from '../components/Card';
 import { listJobs, applyToJob, getJobAnalytics } from '../api/client';
 import { useToast } from '../components/Toast';
-import { MapPin, Briefcase, IndianRupee, Users, Clock } from 'lucide-react';
+import { MapPin, Briefcase, IndianRupee, Users, Clock, Search, Filter, X, ChevronRight, Building2, Bookmark } from 'lucide-react';
 
 type Job = {
     id: string;
