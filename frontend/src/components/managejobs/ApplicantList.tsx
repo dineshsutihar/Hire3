@@ -150,11 +150,10 @@ const ApplicantList: React.FC<ApplicantListProps> = ({
                                     ? "No one has applied to this job yet. Share it to attract candidates!"
                                     : `No applicants with "${applicantFilter}" status.`
                         }
-                        action={searchTerm ? (
-                            <Button variant="outline" onClick={() => setSearchTerm('')}>
-                                Clear Search
-                            </Button>
-                        ) : undefined}
+                        action={searchTerm ? {
+                            label: "Clear Search",
+                            onClick: () => setSearchTerm('')
+                        } : undefined}
                     />
                 ) : (
                     filteredApplicants.map(applicant => (

@@ -366,12 +366,10 @@ const ManageJobs: React.FC = () => {
                         icon={<Briefcase className="h-12 w-12" />}
                         title="No jobs posted yet"
                         description="Create your first job posting to start finding talented candidates for your team."
-                        action={
-                            <Button onClick={() => window.location.href = '/dashboard'}>
-                                <Plus className="h-4 w-4 mr-2" />
-                                Post Your First Job
-                            </Button>
-                        }
+                        action={{
+                            label: "Post Your First Job",
+                            onClick: () => window.location.href = '/dashboard'
+                        }}
                     />
                 ) : (
                     jobs.map(job => (
