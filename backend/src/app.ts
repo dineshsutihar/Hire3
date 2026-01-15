@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import path from "path";
 import authRoutes from "./routes/authRoutes.js";
 import profileRoutes from "./routes/profileRoutes.js";
 import jobRoutes from "./routes/jobRoutes.js";
@@ -23,6 +24,9 @@ app.use(
   })
 );
 app.use(express.json());
+
+// Serve static files for uploads (avatars, etc.)
+app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 
 app.get("/api/health", (_req, res) => {
   res.json({ status: "ok" });
