@@ -47,23 +47,25 @@ export const CreateJobs = () => {
         }
         setPosting(true);
         try {
-            // 1) Require Solana platform fee payment before posting
-            try {
-                const { requiredLamports } = await getPaymentRequirements();
-                const { signature } = await ensurePlatformFeePaid(requiredLamports);
-                await verifyPayment(auth.token, { signature });
-                console.log('Platform fee paid and verified. Tx:', signature);
-            } catch (e: any) {
-                // Better error messages for wallet issues
-                const msg = e?.message || '';
-                if (msg.includes('Phantom') || msg.includes('wallet')) {
-                    throw new Error('Phantom Wallet not found. Please install Phantom wallet extension.');
-                } else if (msg.includes('User rejected') || msg.includes('rejected')) {
-                    throw new Error('Transaction was cancelled by user.');
-                } else if (msg.includes('insufficient') || msg.includes('balance')) {
-                    throw new Error('Insufficient SOL balance in your wallet.');
+            // 1) Require Solana platform fee payment before posting (skip if fee is 0)
+            const { requiredLamports } = await getPaymentRequirements();
+            if (requiredLamports > 0) {
+                try {
+                    const { signature } = await ensurePlatformFeePaid(requiredLamports);
+                    await verifyPayment(auth.token, { signature });
+                    console.log('Platform fee paid and verified. Tx:', signature);
+                } catch (e: any) {
+                    // Better error messages for wallet issues
+                    const msg = e?.message || '';
+                    if (msg.includes('Phantom') || msg.includes('wallet')) {
+                        throw new Error('Phantom Wallet not found. Please install Phantom wallet extension.');
+                    } else if (msg.includes('User rejected') || msg.includes('rejected')) {
+                        throw new Error('Transaction was cancelled by user.');
+                    } else if (msg.includes('insufficient') || msg.includes('balance')) {
+                        throw new Error('Insufficient SOL balance in your wallet.');
+                    }
+                    throw new Error(msg || 'Payment verification failed. Please try again.');
                 }
-                throw new Error(msg || 'Payment verification failed. Please try again.');
             }
 
             const job = await createJob(auth.token, {
