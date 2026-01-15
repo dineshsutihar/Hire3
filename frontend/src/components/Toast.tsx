@@ -1,9 +1,10 @@
 import React from 'react';
 import { createPortal } from 'react-dom';
+import { CheckCircle, XCircle, Info, X, AlertTriangle } from 'lucide-react';
 
 export interface ToastMessage {
     id: string;
-    type?: 'success' | 'error' | 'info';
+    type?: 'success' | 'error' | 'info' | 'warning';
     title: string;
     description?: string;
     duration?: number;
@@ -18,6 +19,37 @@ export const useToast = () => {
     return ctx;
 };
 
+const toastConfig = {
+    success: {
+        icon: CheckCircle,
+        bgColor: 'bg-green-50 dark:bg-green-900/30',
+        borderColor: 'border-green-200 dark:border-green-800',
+        iconColor: 'text-green-600 dark:text-green-400',
+        titleColor: 'text-green-800 dark:text-green-200',
+    },
+    error: {
+        icon: XCircle,
+        bgColor: 'bg-red-50 dark:bg-red-900/30',
+        borderColor: 'border-red-200 dark:border-red-800',
+        iconColor: 'text-red-600 dark:text-red-400',
+        titleColor: 'text-red-800 dark:text-red-200',
+    },
+    warning: {
+        icon: AlertTriangle,
+        bgColor: 'bg-amber-50 dark:bg-amber-900/30',
+        borderColor: 'border-amber-200 dark:border-amber-800',
+        iconColor: 'text-amber-600 dark:text-amber-400',
+        titleColor: 'text-amber-800 dark:text-amber-200',
+    },
+    info: {
+        icon: Info,
+        bgColor: 'bg-blue-50 dark:bg-blue-900/30',
+        borderColor: 'border-blue-200 dark:border-blue-800',
+        iconColor: 'text-blue-600 dark:text-blue-400',
+        titleColor: 'text-blue-800 dark:text-blue-200',
+    },
+};
+
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
     const [toasts, setToasts] = React.useState<ToastMessage[]>([]);
     const timers = React.useRef<Record<string, number>>({});
@@ -29,7 +61,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
     const notify: ToastContextValue['notify'] = React.useCallback(msg => {
         const id = (crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
-        const duration = msg.duration ?? 3500;
+        const duration = msg.duration ?? 4000;
         const toast: ToastMessage = { id, ...msg, duration };
         setToasts(t => [...t.slice(-4), toast]);
         if (duration > 0) timers.current[id] = window.setTimeout(() => remove(id), duration);
@@ -41,24 +73,76 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         <ToastContext.Provider value={{ notify }}>
             {children}
             {createPortal(
-                <div className="pointer-events-none fixed top-16 right-4 z-[100] flex w-full max-w-sm flex-col gap-3 items-end">
-                    {toasts.map(t => (
-                        <div key={t.id} role="status" aria-live="polite" className="pointer-events-auto rounded-md border border-border/60 bg-background/90 px-4 py-3 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-background/75 animate-fade-in slide-in-left">
-                            <div className="flex items-start gap-3">
-                                <div className={`mt-0.5 h-2 w-2 flex-shrink-0 rounded-full ${t.type === 'success' ? 'bg-green-500' : t.type === 'error' ? 'bg-red-500' : 'bg-primary'}`}></div>
-                                <div className="flex-1 space-y-1">
-                                    <p className="text-sm font-medium leading-none">{t.title}</p>
-                                    {t.description && <p className="text-xs text-muted leading-relaxed">{t.description}</p>}
+                <div className="pointer-events-none fixed bottom-4 right-4 z-[100] flex w-full max-w-sm flex-col gap-2 items-end">
+                    {toasts.map((t, index) => {
+                        const config = toastConfig[t.type || 'info'];
+                        const Icon = config.icon;
+                        return (
+                            <div
+                                key={t.id}
+                                role="alert"
+                                aria-live="polite"
+                                style={{
+                                    animation: 'toast-slide-in 0.3s ease-out forwards',
+                                    animationDelay: `${index * 50}ms`,
+                                }}
+                                className={`pointer-events-auto w-full rounded-xl border ${config.bgColor} ${config.borderColor} px-4 py-3 shadow-lg backdrop-blur-sm transform transition-all duration-300 hover:scale-[1.02]`}
+                            >
+                                <div className="flex items-start gap-3">
+                                    <div className={`flex-shrink-0 mt-0.5 ${config.iconColor}`}>
+                                        <Icon className="h-5 w-5" />
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className={`text-sm font-semibold ${config.titleColor}`}>{t.title}</p>
+                                        {t.description && (
+                                            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{t.description}</p>
+                                        )}
+                                    </div>
+                                    <button
+                                        onClick={() => remove(t.id)}
+                                        className="flex-shrink-0 p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                                        aria-label="Dismiss notification"
+                                    >
+                                        <X className="h-4 w-4 text-muted-foreground" />
+                                    </button>
                                 </div>
-                                <button onClick={() => remove(t.id)} className="text-muted hover:text-foreground transition" aria-label="Dismiss">×</button>
+                                {/* Progress bar */}
+                                {t.duration && t.duration > 0 && (
+                                    <div className="mt-2 h-1 w-full bg-black/5 dark:bg-white/10 rounded-full overflow-hidden">
+                                        <div
+                                            className={`h-full ${config.iconColor.replace('text-', 'bg-')} rounded-full`}
+                                            style={{
+                                                animation: `toast-progress ${t.duration}ms linear forwards`,
+                                            }}
+                                        />
+                                    </div>
+                                )}
                             </div>
-                        </div>
-                    ))}
+                        );
+                    })}
                 </div>,
                 document.body
             )}
+            <style>{`
+                @keyframes toast-slide-in {
+                    from {
+                        opacity: 0;
+                        transform: translateX(100%);
+                    }
+                    to {
+                        opacity: 1;
+                        transform: translateX(0);
+                    }
+                }
+                @keyframes toast-progress {
+                    from {
+                        width: 100%;
+                    }
+                    to {
+                        width: 0%;
+                    }
+                }
+            `}</style>
         </ToastContext.Provider>
     );
 };
-
-// Minimal toast system; extend as needed.
