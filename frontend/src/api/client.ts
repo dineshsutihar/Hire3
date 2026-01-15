@@ -48,6 +48,7 @@ interface BackendUser {
   email: string;
   bio?: string | null;
   linkedinUrl?: string | null;
+  avatarUrl?: string | null;
   skills: string[];
   walletAddress?: string | null;
   createdAt?: string;
@@ -58,6 +59,7 @@ const mapUser = (u: BackendUser): UserProfile => ({
   name: u.name,
   email: u.email,
   bio: u.bio ?? undefined,
+  avatarUrl: u.avatarUrl ?? undefined,
   linkedin: u.linkedinUrl ?? undefined,
   skills: u.skills || [],
   wallet: u.walletAddress ?? undefined,
@@ -112,6 +114,20 @@ export async function updateProfile(
   const data = await request<BackendUser>(
     "/profile",
     { method: "PUT", body: JSON.stringify(payload) },
+    token
+  );
+  return mapUser(data);
+}
+
+export async function uploadAvatar(
+  token: string,
+  file: File
+): Promise<UserProfile> {
+  const fd = new FormData();
+  fd.append("avatar", file);
+  const data = await request<BackendUser>(
+    "/profile/avatar",
+    { method: "POST", body: fd },
     token
   );
   return mapUser(data);
