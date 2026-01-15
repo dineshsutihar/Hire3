@@ -196,6 +196,79 @@ router.post("/jobs", authMiddleware, async (req, res, next) => {
   }
 });
 
+// Update job
+router.put("/jobs/:id", authMiddleware, async (req, res, next) => {
+  try {
+    const existing = await prisma.job.findUnique({
+      where: { id: req.params.id },
+    });
+    if (!existing) return res.status(404).json({ message: "Job not found" });
+    if (existing.userId !== req.user!.sub)
+      return res.status(403).json({ message: "Access denied" });
+
+    const {
+      title,
+      description,
+      companyName,
+      role,
+      industry,
+      salaryRange,
+      experienceLevel,
+      companyType,
+      skills,
+      budget,
+      workMode,
+      location,
+      tags,
+      status,
+    } = req.body;
+
+    const job = await prisma.job.update({
+      where: { id: req.params.id },
+      data: {
+        ...(title !== undefined && { title }),
+        ...(description !== undefined && { description }),
+        ...(companyName !== undefined && { companyName }),
+        ...(role !== undefined && { role }),
+        ...(industry !== undefined && { industry }),
+        ...(salaryRange !== undefined && { salaryRange }),
+        ...(experienceLevel !== undefined && { experienceLevel }),
+        ...(companyType !== undefined && { companyType }),
+        ...(skills !== undefined && { skills: toJson(skills) }),
+        ...(budget !== undefined && { budget }),
+        ...(workMode !== undefined && { workMode }),
+        ...(location !== undefined && { location }),
+        ...(tags !== undefined && { tags: toJson(tags) }),
+        ...(status !== undefined && { status }),
+      },
+    });
+
+    res.json({
+      id: job.id,
+      title: job.title,
+      description: job.description,
+      companyName: job.companyName,
+      role: job.role,
+      industry: job.industry,
+      salaryRange: job.salaryRange,
+      experienceLevel: job.experienceLevel,
+      companyType: job.companyType,
+      skills: parseArray(job.skills),
+      budget: job.budget,
+      workMode: job.workMode,
+      location: job.location,
+      tags: parseArray(job.tags),
+      viewCount: job.viewCount,
+      status: job.status,
+      createdAt: job.createdAt,
+      updatedAt: job.updatedAt,
+      userId: job.userId,
+    });
+  } catch (e) {
+    next(e);
+  }
+});
+
 // Delete job
 router.delete("/jobs/:id", authMiddleware, async (req, res, next) => {
   try {

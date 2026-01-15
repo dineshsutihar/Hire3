@@ -190,11 +190,11 @@ const ManageJobs: React.FC = () => {
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'active': return 'bg-green-100 text-green-800';
-            case 'closed': return 'bg-red-100 text-red-800';
-            case 'applied': return 'bg-green-100 text-green-800';
-            case 'rejected': return 'bg-red-100 text-red-800';
-            default: return 'bg-gray-100 text-gray-800';
+            case 'active': return 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300';
+            case 'closed': return 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300';
+            case 'applied': return 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300';
+            case 'rejected': return 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300';
+            default: return 'bg-gray-100 dark:bg-neutral-800 text-gray-800 dark:text-gray-300';
         }
     };
 
@@ -243,10 +243,10 @@ const ManageJobs: React.FC = () => {
                         </div>
 
                         <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium ${selectedJob.status === 'active'
-                                ? 'bg-green-100 text-green-700'
-                                : 'bg-gray-100 text-gray-600'
+                                ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300'
+                                : 'bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-gray-400'
                             }`}>
-                            <span className={`w-2 h-2 rounded-full ${selectedJob.status === 'active' ? 'bg-green-500' : 'bg-gray-400'
+                            <span className={`w-2 h-2 rounded-full ${selectedJob.status === 'active' ? 'bg-green-500' : 'bg-gray-400 dark:bg-gray-600'
                                 }`} />
                             {selectedJob.status.charAt(0).toUpperCase() + selectedJob.status.slice(1)}
                         </div>
@@ -257,8 +257,8 @@ const ManageJobs: React.FC = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
                     <Card className="p-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-blue-100 rounded-lg">
-                                <Users className="h-5 w-5 text-blue-600" />
+                            <div className="p-2 bg-blue-100 dark:bg-blue-900/40 rounded-lg">
+                                <Users className="h-5 w-5 text-blue-600 dark:text-blue-400" />
                             </div>
                             <div>
                                 <div className="text-2xl font-bold">{applicants.length}</div>
@@ -268,8 +268,8 @@ const ManageJobs: React.FC = () => {
                     </Card>
                     <Card className="p-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-yellow-100 rounded-lg">
-                                <Clock className="h-5 w-5 text-yellow-600" />
+                            <div className="p-2 bg-yellow-100 dark:bg-yellow-900/40 rounded-lg">
+                                <Clock className="h-5 w-5 text-yellow-600 dark:text-yellow-400" />
                             </div>
                             <div>
                                 <div className="text-2xl font-bold">{applicants.filter(a => a.status === 'applied').length}</div>
@@ -279,8 +279,8 @@ const ManageJobs: React.FC = () => {
                     </Card>
                     <Card className="p-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-green-100 rounded-lg">
-                                <CheckCircle className="h-5 w-5 text-green-600" />
+                            <div className="p-2 bg-green-100 dark:bg-green-900/40 rounded-lg">
+                                <CheckCircle className="h-5 w-5 text-green-600 dark:text-green-400" />
                             </div>
                             <div>
                                 <div className="text-2xl font-bold">{applicants.filter(a => a.status === 'accepted').length}</div>
@@ -290,8 +290,8 @@ const ManageJobs: React.FC = () => {
                     </Card>
                     <Card className="p-4">
                         <div className="flex items-center gap-3">
-                            <div className="p-2 bg-red-100 rounded-lg">
-                                <XCircle className="h-5 w-5 text-red-600" />
+                            <div className="p-2 bg-red-100 dark:bg-red-900/40 rounded-lg">
+                                <XCircle className="h-5 w-5 text-red-600 dark:text-red-400" />
                             </div>
                             <div>
                                 <div className="text-2xl font-bold">{applicants.filter(a => a.status === 'rejected').length}</div>

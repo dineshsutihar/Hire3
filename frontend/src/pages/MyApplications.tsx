@@ -64,9 +64,9 @@ export const MyApplications = () => {
 
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'applied': return 'bg-green-100 text-green-800';
-            case 'rejected': return 'bg-red-100 text-red-800';
-            default: return 'bg-gray-100 text-gray-800';
+            case 'applied': return 'bg-green-100 dark:bg-green-900/40 text-green-800 dark:text-green-300';
+            case 'rejected': return 'bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300';
+            default: return 'bg-gray-100 dark:bg-neutral-800 text-gray-800 dark:text-gray-300';
         }
     };
 

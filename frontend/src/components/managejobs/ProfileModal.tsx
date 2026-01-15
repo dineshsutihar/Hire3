@@ -35,9 +35,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, applicant, onClose, g
     };
 
     const getMatchScoreColor = (score: number) => {
-        if (score >= 80) return 'text-green-600';
-        if (score >= 50) return 'text-yellow-600';
-        return 'text-gray-600';
+        if (score >= 80) return 'text-green-600 dark:text-green-400';
+        if (score >= 50) return 'text-yellow-600 dark:text-yellow-400';
+        return 'text-gray-600 dark:text-gray-400';
     };
 
     const getMatchScoreBg = (score: number) => {
@@ -76,9 +76,9 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, applicant, onClose, g
                     <div className="text-center mb-6">
                         <h2 className="text-2xl font-bold mb-2">{applicant.name}</h2>
                         <div className="flex items-center justify-center gap-3 flex-wrap">
-                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${applicant.status === 'accepted' ? 'bg-green-100 text-green-700' :
-                                    applicant.status === 'rejected' ? 'bg-red-100 text-red-700' :
-                                        'bg-blue-100 text-blue-700'
+                            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${applicant.status === 'accepted' ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' :
+                                    applicant.status === 'rejected' ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' :
+                                        'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300'
                                 }`}>
                                 {applicant.status === 'accepted' && <CheckCircle className="h-4 w-4" />}
                                 {applicant.status === 'rejected' && <XCircle className="h-4 w-4" />}
@@ -187,7 +187,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, applicant, onClose, g
                             <Button
                                 variant="outline"
                                 onClick={() => { onReject(applicant.id); onClose(); }}
-                                className="flex-1 text-red-600 border-red-200 hover:bg-red-50"
+                                className="flex-1 text-red-600 dark:text-red-400 border-red-200 dark:border-red-800 hover:bg-red-50 dark:hover:bg-red-900/20"
                             >
                                 <XCircle className="h-4 w-4 mr-2" />
                                 Reject Applicant

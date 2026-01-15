@@ -15,9 +15,9 @@ const JobCard: React.FC<JobCardProps> = ({ job, onViewApplicants, onCloseJob, ge
     const [menuOpen, setMenuOpen] = React.useState(false);
 
     const statusConfig: Record<string, { bg: string; text: string; dot: string }> = {
-        active: { bg: 'bg-green-50', text: 'text-green-700', dot: 'bg-green-500' },
-        closed: { bg: 'bg-gray-100', text: 'text-gray-600', dot: 'bg-gray-400' },
-        draft: { bg: 'bg-yellow-50', text: 'text-yellow-700', dot: 'bg-yellow-500' },
+        active: { bg: 'bg-green-50 dark:bg-green-900/30', text: 'text-green-700 dark:text-green-300', dot: 'bg-green-500' },
+        closed: { bg: 'bg-gray-100 dark:bg-neutral-800', text: 'text-gray-600 dark:text-gray-400', dot: 'bg-gray-400' },
+        draft: { bg: 'bg-yellow-50 dark:bg-yellow-900/30', text: 'text-yellow-700 dark:text-yellow-300', dot: 'bg-yellow-500' },
     };
 
     const status = statusConfig[job.status] || statusConfig.active;
@@ -74,7 +74,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onViewApplicants, onCloseJob, ge
                                     </span>
                                 ))}
                                 {job.skills.length > 4 && (
-                                    <span className="px-2.5 py-1 bg-gray-100 text-gray-600 text-xs rounded-full">
+                                    <span className="px-2.5 py-1 bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-gray-400 text-xs rounded-full">
                                         +{job.skills.length - 4} more
                                     </span>
                                 )}
@@ -101,7 +101,7 @@ const JobCard: React.FC<JobCardProps> = ({ job, onViewApplicants, onCloseJob, ge
                         <div className="relative">
                             <button
                                 onClick={() => setMenuOpen(!menuOpen)}
-                                className="p-2 rounded-lg hover:bg-gray-100 transition-colors"
+                                className="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-neutral-700 transition-colors"
                             >
                                 <MoreVertical className="h-5 w-5 text-muted-foreground" />
                             </button>

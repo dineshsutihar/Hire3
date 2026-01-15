@@ -70,9 +70,9 @@ const ApplicantList: React.FC<ApplicantListProps> = ({
     ];
 
     const getMatchScoreColor = (score: number) => {
-        if (score >= 80) return 'text-green-600 bg-green-50';
-        if (score >= 50) return 'text-yellow-600 bg-yellow-50';
-        return 'text-gray-600 bg-gray-50';
+        if (score >= 80) return 'text-green-600 dark:text-green-400 bg-green-50 dark:bg-green-900/30';
+        if (score >= 50) return 'text-yellow-600 dark:text-yellow-400 bg-yellow-50 dark:bg-yellow-900/30';
+        return 'text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-neutral-800';
     };
 
     return (
@@ -173,9 +173,9 @@ const ApplicantList: React.FC<ApplicantListProps> = ({
                                                 <h3 className="text-lg font-semibold">{applicant.name}</h3>
 
                                                 {/* Status Badge */}
-                                                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${applicant.status === 'accepted' ? 'bg-green-100 text-green-700' :
-                                                        applicant.status === 'rejected' ? 'bg-red-100 text-red-700' :
-                                                            'bg-blue-100 text-blue-700'
+                                                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${applicant.status === 'accepted' ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' :
+                                                        applicant.status === 'rejected' ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' :
+                                                            'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300'
                                                     }`}>
                                                     {applicant.status === 'accepted' && <CheckCircle className="h-3 w-3" />}
                                                     {applicant.status === 'rejected' && <XCircle className="h-3 w-3" />}
@@ -205,7 +205,7 @@ const ApplicantList: React.FC<ApplicantListProps> = ({
                                                     </span>
                                                 ))}
                                                 {applicant.skills.length > 6 && (
-                                                    <span className="px-2 py-0.5 bg-gray-100 text-gray-600 text-xs rounded-full">
+                                                    <span className="px-2 py-0.5 bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-gray-400 text-xs rounded-full">
                                                         +{applicant.skills.length - 6}
                                                     </span>
                                                 )}
@@ -247,7 +247,7 @@ const ApplicantList: React.FC<ApplicantListProps> = ({
                                             variant="outline"
                                             size="sm"
                                             onClick={() => onReject(applicant.id)}
-                                            className="w-full md:w-auto text-red-600 hover:bg-red-50 border-red-200"
+                                            className="w-full md:w-auto text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 border-red-200 dark:border-red-800"
                                         >
                                             <XCircle className="h-4 w-4 mr-1" />
                                             Reject
