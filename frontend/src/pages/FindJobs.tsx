@@ -11,11 +11,19 @@ type Job = {
     id: string;
     title: string;
     description: string;
+    companyName?: string;
+    role?: string;
+    industry?: string;
+    salaryRange?: string;
+    experienceLevel?: string;
+    companyType?: string;
     skills: string[];
     location?: string;
     workMode?: string;
     tags?: string[];
-    budget?: number;
+    budget?: string;
+    viewCount?: number;
+    status?: string;
     createdAt?: string;
     updatedAt?: string;
     userId?: string;
@@ -231,19 +239,23 @@ export const FindJobs = () => {
                                     <div className="flex items-start justify-between gap-3">
                                         <div className="flex flex-col gap-0.5">
                                             <p className="font-medium text-base leading-tight line-clamp-1">{j.title}</p>
-                                            <div className="flex gap-2 items-center text-xs text-muted-foreground">
-                                                {j.location && <span className="flex items-center gap-1"><MapPin className="inline w-4 h-4" /> {j.location}</span>}
-                                                {j.workMode && <span className="flex items-center gap-1"><Briefcase className="inline w-4 h-4" /> {j.workMode}</span>}
-                                                {j.budget && <span className="flex items-center gap-1"><IndianRupee className="inline w-4 h-4" /> {j.budget} Rupees</span>}
-                                                <span className="text-xs text-muted/70 flex items-center gap-1"><Clock className="inline w-4 h-4" />{timeAgo(j.createdAt)}</span>
-
+                                            {j.companyName && (
+                                                <p className="text-sm text-primary font-medium flex items-center gap-1">
+                                                    <Building2 className="inline w-3.5 h-3.5" /> {j.companyName}
+                                                </p>
+                                            )}
+                                            <div className="flex flex-wrap gap-2 items-center text-xs text-muted-foreground mt-1">
+                                                {j.location && <span className="flex items-center gap-1"><MapPin className="inline w-3.5 h-3.5" /> {j.location}</span>}
+                                                {j.workMode && <span className="flex items-center gap-1"><Briefcase className="inline w-3.5 h-3.5" /> {j.workMode}</span>}
+                                                {(j.salaryRange || j.budget) && <span className="flex items-center gap-1"><IndianRupee className="inline w-3.5 h-3.5" /> {j.salaryRange || j.budget}</span>}
+                                                {j.experienceLevel && <span className="bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 px-1.5 py-0.5 rounded text-xs">{j.experienceLevel}</span>}
+                                                <span className="text-xs text-muted/70 flex items-center gap-1"><Clock className="inline w-3.5 h-3.5" />{timeAgo(j.createdAt)}</span>
                                             </div>
                                         </div>
                                         <Button size="sm" className="h-7 px-2 text-xs" onClick={(e) => { e.stopPropagation(); apply(j.id); }}>Apply</Button>
                                     </div>
-                                    <p className="text-sm line-clamp-3 whitespace-pre-wrap text-foreground/70">{j.description.slice(0, 400)}</p>
-                                    {j.skills && j.skills.length > 0 && <div className="flex flex-wrap gap-1">{j.skills.slice(0, 4).map((s: string, idx: number) => <span key={idx} className="text-xs rounded bg-primary/10 text-primary px-2 py-0.5">{s}</span>)}</div>}
-                                    {j.tags && j.tags.length > 0 && <div className="flex flex-wrap gap-1">{j.tags.slice(0, 4).map((t: string, idx: number) => <span key={idx} className="text-xs rounded bg-blue-100 text-blue-700 px-2 py-0.5">{t}</span>)}</div>}
+                                    <p className="text-sm line-clamp-2 whitespace-pre-wrap text-foreground/70">{j.description.slice(0, 200)}</p>
+                                    {j.skills && j.skills.length > 0 && <div className="flex flex-wrap gap-1">{j.skills.slice(0, 4).map((s: string, idx: number) => <span key={idx} className="text-xs rounded bg-primary/10 text-primary px-2 py-0.5">{s}</span>)}{j.skills.length > 4 && <span className="text-xs text-muted">+{j.skills.length - 4}</span>}</div>}
                                 </div>
                             ))}
                             {nextCursor && (
@@ -330,39 +342,84 @@ const JobDetailPanel: React.FC<{
     React.useEffect(() => { fetchAnalytics(); }, [fetchAnalytics]);
     return (
         <Card className="h-[78vh] flex flex-col">
-            <div className="flex-1 overflow-auto p-8 flex flex-col gap-8">
-                <div className="flex flex-col gap-2">
-                    <h2 className="text-2xl font-semibold leading-tight">{job.title}</h2>
-                    <div className="flex flex-wrap gap-3 items-center text-xs text-muted">
+            <div className="flex-1 overflow-auto p-8 flex flex-col gap-6">
+                {/* Header */}
+                <div className="flex flex-col gap-3">
+                    <h2 className="text-2xl font-bold leading-tight">{job.title}</h2>
+                    {job.companyName && (
+                        <p className="text-lg font-medium text-primary flex items-center gap-2">
+                            <Building2 className="w-5 h-5" /> {job.companyName}
+                        </p>
+                    )}
+                    <div className="flex flex-wrap gap-3 items-center text-sm text-muted">
                         {job.location && <span className="flex items-center gap-1"><MapPin className="inline w-4 h-4" /> {job.location}</span>}
-                        {job.workMode && <span className="flex items-center gap-1"><Briefcase className="inline w-4 h-4" /> {job.workMode}</span>}
-                        {job.budget && <span className="flex items-center gap-1"><IndianRupee className="inline w-4 h-4" /> {job.budget} Rupees</span>}
+                        {job.workMode && <span className="flex items-center gap-1 bg-gray-100 dark:bg-neutral-800 px-2 py-0.5 rounded"><Briefcase className="inline w-4 h-4" /> {job.workMode}</span>}
                         <span className="flex items-center gap-1"><Clock className="inline w-4 h-4" />{timeAgo(job.createdAt)}</span>
                         {typeof applications === 'number' && <span className="flex items-center gap-1"><Users className="inline w-4 h-4" /> {applications} applicants</span>}
                     </div>
-                    <div className="pt-2"><Button size="sm" onClick={onApply}>Apply Now</Button></div>
                 </div>
-                <div className="flex flex-col gap-6 text-[15px] leading-relaxed">
-                    <div className="whitespace-pre-wrap">{job.description}</div>
+
+                {/* Key Details */}
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 p-4 bg-gray-50 dark:bg-neutral-800/50 rounded-lg">
+                    {(job.salaryRange || job.budget) && (
+                        <div className="flex flex-col">
+                            <span className="text-xs text-muted uppercase tracking-wide">Salary</span>
+                            <span className="font-semibold">{job.salaryRange || job.budget}</span>
+                        </div>
+                    )}
+                    {job.experienceLevel && (
+                        <div className="flex flex-col">
+                            <span className="text-xs text-muted uppercase tracking-wide">Experience</span>
+                            <span className="font-semibold">{job.experienceLevel}</span>
+                        </div>
+                    )}
+                    {job.companyType && (
+                        <div className="flex flex-col">
+                            <span className="text-xs text-muted uppercase tracking-wide">Company Type</span>
+                            <span className="font-semibold">{job.companyType}</span>
+                        </div>
+                    )}
+                    {job.industry && (
+                        <div className="flex flex-col">
+                            <span className="text-xs text-muted uppercase tracking-wide">Industry</span>
+                            <span className="font-semibold">{job.industry}</span>
+                        </div>
+                    )}
                 </div>
+
+                {/* Apply Button */}
+                <div className="flex gap-3">
+                    <Button onClick={onApply} className="flex-1">Apply Now</Button>
+                    <Button variant="outline" className="gap-2"><Bookmark className="w-4 h-4" /> Save</Button>
+                </div>
+
+                {/* Description */}
+                <div className="flex flex-col gap-3">
+                    <p className="text-base font-semibold">About the Role</p>
+                    <div className="whitespace-pre-wrap text-[15px] leading-relaxed text-foreground/80">{job.description}</div>
+                </div>
+
+                {/* Skills */}
                 {job.skills && job.skills.length > 0 && (
                     <div className="flex flex-col gap-3">
-                        <p className="text-base font-semibold">Skills</p>
+                        <p className="text-base font-semibold">Required Skills</p>
                         <div className="flex flex-wrap gap-2">
                             {job.skills.map((skill: string, idx: number) => (
-                                <span key={idx} className="text-xs rounded bg-blue-100 text-blue-700 px-3 py-1">
+                                <span key={idx} className="text-sm rounded-full bg-primary/10 text-primary px-3 py-1 font-medium">
                                     {skill}
                                 </span>
                             ))}
                         </div>
                     </div>
                 )}
+
+                {/* Tags */}
                 {job.tags && job.tags.length > 0 && (
                     <div className="flex flex-col gap-3">
                         <p className="text-base font-semibold">Tags</p>
                         <div className="flex flex-wrap gap-2">
                             {job.tags.map((tag: string, idx: number) => (
-                                <span key={idx} className="text-xs rounded bg-primary/10 text-primary px-3 py-1">
+                                <span key={idx} className="text-xs rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 px-3 py-1">
                                     {tag}
                                 </span>
                             ))}
