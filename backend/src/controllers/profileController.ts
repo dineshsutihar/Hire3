@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import { prisma } from "../prisma.js";
-import path from "path";
-import fs from "fs";
+import sharp from "sharp";
 
 export const getProfile = async (req: Request, res: Response) => {
   const userId = req.user?.sub;
@@ -52,8 +51,14 @@ export const uploadAvatar = async (req: Request, res: Response) => {
   }
 
   try {
-    // Generate avatar URL (relative path for serving)
-    const avatarUrl = `/uploads/avatars/${req.file.filename}`;
+    // Compress and resize image using sharp, then convert to base64
+    const compressedBuffer = await sharp(req.file.buffer)
+      .resize(200, 200, { fit: "cover" }) // Resize to 200x200
+      .webp({ quality: 80 }) // Convert to WebP with 80% quality
+      .toBuffer();
+
+    // Create data URL for storing in DB
+    const avatarUrl = `data:image/webp;base64,${compressedBuffer.toString("base64")}`;
 
     // Update user's avatar URL
     const updated = await prisma.user.update({
@@ -64,10 +69,6 @@ export const uploadAvatar = async (req: Request, res: Response) => {
     const { password, skills: rawSkills, ...rest } = updated as any;
     res.json({ ...rest, skills: rawSkills || [] });
   } catch (err: any) {
-    // Clean up uploaded file on error
-    if (req.file?.path) {
-      fs.unlink(req.file.path, () => {});
-    }
     if (err.code === "P2025") {
       return res.status(404).json({ message: "User not found" });
     }

@@ -44,8 +44,12 @@ const Posts: React.FC = () => {
             {auth.token && (
                 <Card className="p-3">
                     <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold">
-                            {(user?.name?.[0] || '?').toUpperCase()}
+                        <div className="h-10 w-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-semibold overflow-hidden">
+                            {user?.avatarUrl ? (
+                                <img src={user.avatarUrl} alt={user.name} className="h-full w-full object-cover" />
+                            ) : (
+                                (user?.name?.[0] || '?').toUpperCase()
+                            )}
                         </div>
                         <button onClick={() => setComposerOpen(true)} className="flex-1 text-left rounded-full border border-border bg-background px-4 py-2 text-sm text-muted-foreground hover:bg-muted/10">
                             Start a post
