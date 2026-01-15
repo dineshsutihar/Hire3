@@ -287,41 +287,41 @@ export const FindJobs = () => {
                             <div className="flex flex-wrap items-center gap-2">
                                 <span className="text-sm text-muted-foreground">Active filters:</span>
                                 {filters.skill && (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-sm">
                                         <Zap className="w-3 h-3" /> {filters.skill}
-                                        <button onClick={() => setFilters(f => ({ ...f, skill: '' }))} className="ml-1 hover:text-blue-900">
+                                        <button onClick={() => setFilters(f => ({ ...f, skill: '' }))} className="ml-1 hover:text-blue-900 dark:hover:text-blue-100">
                                             <X className="w-3 h-3" />
                                         </button>
                                     </span>
                                 )}
                                 {filters.location && (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-sm">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300 text-sm">
                                         <MapPin className="w-3 h-3" /> {filters.location}
-                                        <button onClick={() => setFilters(f => ({ ...f, location: '' }))} className="ml-1 hover:text-green-900">
+                                        <button onClick={() => setFilters(f => ({ ...f, location: '' }))} className="ml-1 hover:text-green-900 dark:hover:text-green-100">
                                             <X className="w-3 h-3" />
                                         </button>
                                     </span>
                                 )}
                                 {filters.tag && (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300 text-sm">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-orange-100 dark:bg-orange-900/40 text-orange-700 dark:text-orange-300 text-sm">
                                         # {filters.tag}
-                                        <button onClick={() => setFilters(f => ({ ...f, tag: '' }))} className="ml-1 hover:text-orange-900">
+                                        <button onClick={() => setFilters(f => ({ ...f, tag: '' }))} className="ml-1 hover:text-orange-900 dark:hover:text-orange-100">
                                             <X className="w-3 h-3" />
                                         </button>
                                     </span>
                                 )}
                                 {filters.workMode && (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 text-sm">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-100 dark:bg-indigo-900/40 text-indigo-700 dark:text-indigo-300 text-sm">
                                         <Briefcase className="w-3 h-3" /> {filters.workMode}
-                                        <button onClick={() => setFilters(f => ({ ...f, workMode: '' }))} className="ml-1 hover:text-indigo-900">
+                                        <button onClick={() => setFilters(f => ({ ...f, workMode: '' }))} className="ml-1 hover:text-indigo-900 dark:hover:text-indigo-100">
                                             <X className="w-3 h-3" />
                                         </button>
                                     </span>
                                 )}
                                 {filters.experience && (
-                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-sm">
+                                    <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 text-sm">
                                         <GraduationCap className="w-3 h-3" /> {filters.experience}
-                                        <button onClick={() => setFilters(f => ({ ...f, experience: '' }))} className="ml-1 hover:text-purple-900">
+                                        <button onClick={() => setFilters(f => ({ ...f, experience: '' }))} className="ml-1 hover:text-purple-900 dark:hover:text-purple-100">
                                             <X className="w-3 h-3" />
                                         </button>
                                     </span>
