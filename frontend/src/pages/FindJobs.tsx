@@ -5,9 +5,9 @@ import Button from '../components/Button';
 import { Card } from '../components/Card';
 import { listJobs, applyToJob, getJobAnalytics } from '../api/client';
 import { useToast } from '../components/Toast';
-import { 
-    MapPin, Briefcase, Users, Clock, Search, Filter, X, 
-    Building2, Sparkles, TrendingUp, Zap, 
+import {
+    MapPin, Briefcase, Users, Clock, Search, Filter, X,
+    Building2, Sparkles, TrendingUp, Zap,
     Globe, Home, Building, Heart, Share2, Eye,
     GraduationCap, Banknote, ArrowRight, RefreshCw, SlidersHorizontal
 } from 'lucide-react';
@@ -254,11 +254,10 @@ export const FindJobs = () => {
                                 <button
                                     key={mode}
                                     onClick={() => setFilters(f => ({ ...f, workMode: f.workMode === mode ? '' : mode }))}
-                                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                                        filters.workMode === mode
+                                    className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all ${filters.workMode === mode
                                             ? 'bg-primary text-primary-foreground shadow-md'
                                             : 'bg-white/80 dark:bg-neutral-800/80 border border-border/50 hover:border-primary/50 hover:bg-primary/5'
-                                    }`}
+                                        }`}
                                 >
                                     {mode === 'Remote' && <Globe className="w-3.5 h-3.5" />}
                                     {mode === 'Hybrid' && <Home className="w-3.5 h-3.5" />}
@@ -271,11 +270,10 @@ export const FindJobs = () => {
                                 <button
                                     key={exp}
                                     onClick={() => setFilters(f => ({ ...f, experience: f.experience === exp ? '' : exp }))}
-                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
-                                        filters.experience === exp
+                                    className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${filters.experience === exp
                                             ? 'bg-purple-500 text-white shadow-md'
                                             : 'bg-white/80 dark:bg-neutral-800/80 border border-border/50 hover:border-purple-500/50 hover:bg-purple-50 dark:hover:bg-purple-900/20'
-                                    }`}
+                                        }`}
                                 >
                                     {exp}
                                 </button>
@@ -431,9 +429,9 @@ export const FindJobs = () => {
                                 {loadingJobs ? 'Loading...' : `Showing ${jobs.length} jobs`}
                             </p>
                             {selectedJob && (
-                                <Button 
-                                    variant="ghost" 
-                                    size="sm" 
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
                                     onClick={() => setSelectedJob(null)}
                                     className="lg:hidden"
                                 >
@@ -470,11 +468,10 @@ export const FindJobs = () => {
                                 <div
                                     key={job.id}
                                     onClick={() => setSelectedJob(job.id === selectedJob?.id ? null : job)}
-                                    className={`group p-5 bg-white dark:bg-neutral-900 border rounded-xl cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 ${
-                                        selectedJob?.id === job.id
+                                    className={`group p-5 bg-white dark:bg-neutral-900 border rounded-xl cursor-pointer transition-all duration-200 hover:shadow-lg hover:-translate-y-0.5 ${selectedJob?.id === job.id
                                             ? 'border-primary ring-2 ring-primary/20 shadow-lg'
                                             : 'border-border/50 hover:border-primary/30'
-                                    }`}
+                                        }`}
                                 >
                                     <div className="flex gap-4">
                                         {/* Company Avatar */}
@@ -496,11 +493,10 @@ export const FindJobs = () => {
                                                 <div className="flex items-center gap-2 shrink-0">
                                                     <button
                                                         onClick={(e) => { e.stopPropagation(); toggleSaveJob(job.id); }}
-                                                        className={`p-2 rounded-lg transition-colors ${
-                                                            savedJobs.has(job.id)
+                                                        className={`p-2 rounded-lg transition-colors ${savedJobs.has(job.id)
                                                                 ? 'bg-red-100 dark:bg-red-900/30 text-red-500'
                                                                 : 'bg-muted/50 hover:bg-muted text-muted-foreground'
-                                                        }`}
+                                                            }`}
                                                     >
                                                         <Heart className={`w-4 h-4 ${savedJobs.has(job.id) ? 'fill-current' : ''}`} />
                                                     </button>
@@ -515,13 +511,12 @@ export const FindJobs = () => {
                                                     </span>
                                                 )}
                                                 {job.workMode && (
-                                                    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium ${
-                                                        job.workMode.toLowerCase() === 'remote'
+                                                    <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs font-medium ${job.workMode.toLowerCase() === 'remote'
                                                             ? 'bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300'
                                                             : job.workMode.toLowerCase() === 'hybrid'
-                                                            ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
-                                                            : 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300'
-                                                    }`}>
+                                                                ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300'
+                                                                : 'bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-300'
+                                                        }`}>
                                                         {job.workMode.toLowerCase() === 'remote' && <Globe className="w-3 h-3" />}
                                                         {job.workMode.toLowerCase() === 'hybrid' && <Home className="w-3 h-3" />}
                                                         {job.workMode.toLowerCase() === 'onsite' && <Building className="w-3 h-3" />}
@@ -672,13 +667,12 @@ const JobDetailPanel: React.FC<{
                                 </span>
                             )}
                             {job.workMode && (
-                                <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium shadow-sm ${
-                                    job.workMode.toLowerCase() === 'remote'
+                                <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-lg text-sm font-medium shadow-sm ${job.workMode.toLowerCase() === 'remote'
                                         ? 'bg-green-100 dark:bg-green-900/50 text-green-700 dark:text-green-300'
                                         : job.workMode.toLowerCase() === 'hybrid'
-                                        ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300'
-                                        : 'bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300'
-                                }`}>
+                                            ? 'bg-blue-100 dark:bg-blue-900/50 text-blue-700 dark:text-blue-300'
+                                            : 'bg-orange-100 dark:bg-orange-900/50 text-orange-700 dark:text-orange-300'
+                                    }`}>
                                     <Globe className="w-3.5 h-3.5" /> {job.workMode}
                                 </span>
                             )}
@@ -758,8 +752,8 @@ const JobDetailPanel: React.FC<{
                             </h3>
                             <div className="flex flex-wrap gap-2">
                                 {job.skills.map((skill: string, idx: number) => (
-                                    <span 
-                                        key={idx} 
+                                    <span
+                                        key={idx}
                                         className="px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-purple-500/10 text-primary border border-primary/20 text-sm font-medium hover:shadow-md transition-shadow"
                                     >
                                         {skill}
@@ -778,8 +772,8 @@ const JobDetailPanel: React.FC<{
                             </h3>
                             <div className="flex flex-wrap gap-2">
                                 {job.tags.map((tag: string, idx: number) => (
-                                    <span 
-                                        key={idx} 
+                                    <span
+                                        key={idx}
                                         className="px-3 py-1.5 rounded-full bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 text-sm"
                                     >
                                         # {tag}
@@ -797,8 +791,8 @@ const JobDetailPanel: React.FC<{
                     <Button onClick={onApply} className="flex-1 gap-2 py-3 h-auto text-base font-semibold shadow-lg hover:shadow-xl transition-shadow">
                         <Zap className="w-5 h-5" /> Apply Now
                     </Button>
-                    <Button 
-                        variant="outline" 
+                    <Button
+                        variant="outline"
                         className={`gap-2 px-6 py-3 h-auto ${isSaved ? 'bg-red-50 dark:bg-red-900/20 border-red-200 dark:border-red-800' : ''}`}
                         onClick={onSave}
                     >

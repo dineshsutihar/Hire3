@@ -42,8 +42,8 @@ const Posts: React.FC = () => {
         setMyPosts(prev => [p, ...prev]);
     };
 
-    const filteredFeed = activeFilter === 'all' 
-        ? feed 
+    const filteredFeed = activeFilter === 'all'
+        ? feed
         : feed.filter(p => p.type.toLowerCase() === activeFilter);
 
     const trendingTags = ['web3', 'remote', 'startup', 'career', 'interviewing'];
@@ -132,29 +132,29 @@ const Posts: React.FC = () => {
                                             (user?.name?.[0] || '?').toUpperCase()
                                         )}
                                     </div>
-                                    <button 
-                                        onClick={() => setComposerOpen(true)} 
+                                    <button
+                                        onClick={() => setComposerOpen(true)}
                                         className="flex-1 text-left rounded-full border border-border bg-muted/10 hover:bg-muted/20 px-5 py-3 text-sm text-muted-foreground transition-colors"
                                     >
                                         Share your thoughts, {user?.name?.split(' ')[0]}...
                                     </button>
                                 </div>
                                 <div className="mt-3 pt-3 border-t border-border/50 flex items-center justify-around">
-                                    <button 
+                                    <button
                                         onClick={() => setComposerOpen(true)}
                                         className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-muted/10 text-muted-foreground transition-colors"
                                     >
                                         <ImageIcon size={20} className="text-green-500" />
                                         <span className="text-sm font-medium hidden sm:inline">Photo</span>
                                     </button>
-                                    <button 
+                                    <button
                                         className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-muted/10 text-muted-foreground transition-colors opacity-50 cursor-not-allowed"
                                         disabled
                                     >
                                         <Video size={20} className="text-blue-500" />
                                         <span className="text-sm font-medium hidden sm:inline">Video</span>
                                     </button>
-                                    <button 
+                                    <button
                                         onClick={() => setComposerOpen(true)}
                                         className="flex items-center gap-2 px-4 py-2 rounded-lg hover:bg-muted/10 text-muted-foreground transition-colors"
                                     >
@@ -175,11 +175,10 @@ const Posts: React.FC = () => {
                                     <button
                                         key={tab.key}
                                         onClick={() => setActiveFilter(tab.key as typeof activeFilter)}
-                                        className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${
-                                            activeFilter === tab.key
+                                        className={`px-4 py-2 rounded-md text-sm font-medium transition-all ${activeFilter === tab.key
                                                 ? 'bg-background shadow-sm text-foreground'
                                                 : 'text-muted-foreground hover:text-foreground'
-                                        }`}
+                                            }`}
                                     >
                                         {tab.label}
                                     </button>
@@ -309,8 +308,8 @@ const Posts: React.FC = () => {
                     <div className="relative z-10 w-full max-w-2xl rounded-2xl border border-border bg-background shadow-2xl">
                         <div className="px-6 py-4 border-b border-border/60 flex items-center justify-between">
                             <h3 className="text-lg font-semibold">Create a Post</h3>
-                            <button 
-                                className="p-2 rounded-lg hover:bg-muted/20 text-muted-foreground transition-colors" 
+                            <button
+                                className="p-2 rounded-lg hover:bg-muted/20 text-muted-foreground transition-colors"
                                 onClick={() => setComposerOpen(false)}
                             >
                                 ✕

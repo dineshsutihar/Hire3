@@ -114,15 +114,15 @@ const ApplicantList: React.FC<ApplicantListProps> = ({
                             key={tab.key}
                             onClick={() => setApplicantFilter(tab.key)}
                             className={`flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all ${applicantFilter === tab.key
-                                    ? 'bg-primary text-white shadow-md'
-                                    : 'bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-700'
+                                ? 'bg-primary text-white shadow-md'
+                                : 'bg-gray-100 dark:bg-neutral-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-700'
                                 }`}
                         >
                             <Icon className="h-4 w-4" />
                             {tab.label}
                             <span className={`px-2 py-0.5 rounded-full text-xs ${applicantFilter === tab.key
-                                    ? 'bg-white/20 text-white'
-                                    : 'bg-gray-200 dark:bg-neutral-700'
+                                ? 'bg-white/20 text-white'
+                                : 'bg-gray-200 dark:bg-neutral-700'
                                 }`}>
                                 {tab.count}
                             </span>
@@ -174,8 +174,8 @@ const ApplicantList: React.FC<ApplicantListProps> = ({
 
                                                 {/* Status Badge */}
                                                 <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${applicant.status === 'accepted' ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' :
-                                                        applicant.status === 'rejected' ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' :
-                                                            'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300'
+                                                    applicant.status === 'rejected' ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' :
+                                                        'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300'
                                                     }`}>
                                                     {applicant.status === 'accepted' && <CheckCircle className="h-3 w-3" />}
                                                     {applicant.status === 'rejected' && <XCircle className="h-3 w-3" />}

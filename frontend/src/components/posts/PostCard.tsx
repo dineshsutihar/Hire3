@@ -59,7 +59,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
     const handleSubmitComment = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!auth.token || !commentText.trim()) return;
-        
+
         setSubmittingComment(true);
         try {
             const newComment = await addComment(auth.token, post.id, commentText.trim());
@@ -199,7 +199,7 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                     <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
                     <span className="text-sm font-medium">Like</span>
                 </button>
-                <button 
+                <button
                     onClick={handleToggleComments}
                     className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg transition-colors ${showComments
                         ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/20'

@@ -99,17 +99,17 @@ export const CreateJobs = () => {
                             <button
                                 onClick={() => setCurrentStep(step.number)}
                                 className={`flex items-center gap-3 px-4 py-2 rounded-lg transition-all ${currentStep === step.number
-                                        ? 'bg-primary text-white'
-                                        : currentStep > step.number
-                                            ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-                                            : 'bg-muted/10 text-muted'
+                                    ? 'bg-primary text-white'
+                                    : currentStep > step.number
+                                        ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+                                        : 'bg-muted/10 text-muted'
                                     }`}
                             >
                                 <div className={`h-8 w-8 rounded-full flex items-center justify-center ${currentStep === step.number
-                                        ? 'bg-white/20'
-                                        : currentStep > step.number
-                                            ? 'bg-green-500/20'
-                                            : 'bg-muted/20'
+                                    ? 'bg-white/20'
+                                    : currentStep > step.number
+                                        ? 'bg-green-500/20'
+                                        : 'bg-muted/20'
                                     }`}>
                                     {currentStep > step.number ? (
                                         <CheckCircle size={18} />

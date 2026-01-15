@@ -243,8 +243,8 @@ const ManageJobs: React.FC = () => {
                         </div>
 
                         <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium ${selectedJob.status === 'active'
-                                ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300'
-                                : 'bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-gray-400'
+                            ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300'
+                            : 'bg-gray-100 dark:bg-neutral-800 text-gray-600 dark:text-gray-400'
                             }`}>
                             <span className={`w-2 h-2 rounded-full ${selectedJob.status === 'active' ? 'bg-green-500' : 'bg-gray-400 dark:bg-gray-600'
                                 }`} />

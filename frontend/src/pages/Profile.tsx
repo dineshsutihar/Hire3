@@ -299,13 +299,13 @@ export const Profile = () => {
                                 <div
                                     key={item.key}
                                     className={`flex items-center gap-3 p-2.5 rounded-lg transition-colors ${item.completed
-                                            ? 'bg-green-50 dark:bg-green-900/20'
-                                            : 'bg-gray-50 dark:bg-neutral-800'
+                                        ? 'bg-green-50 dark:bg-green-900/20'
+                                        : 'bg-gray-50 dark:bg-neutral-800'
                                         }`}
                                 >
                                     <div className={`p-1.5 rounded-full ${item.completed
-                                            ? 'bg-green-100 text-green-600'
-                                            : 'bg-gray-200 dark:bg-neutral-700 text-muted-foreground'
+                                        ? 'bg-green-100 text-green-600'
+                                        : 'bg-gray-200 dark:bg-neutral-700 text-muted-foreground'
                                         }`}>
                                         {item.completed ? <CheckCircle className="h-4 w-4" /> : item.icon}
                                     </div>

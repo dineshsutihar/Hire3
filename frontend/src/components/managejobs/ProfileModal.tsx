@@ -77,8 +77,8 @@ const ProfileModal: React.FC<ProfileModalProps> = ({ open, applicant, onClose, g
                         <h2 className="text-2xl font-bold mb-2">{applicant.name}</h2>
                         <div className="flex items-center justify-center gap-3 flex-wrap">
                             <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${applicant.status === 'accepted' ? 'bg-green-100 dark:bg-green-900/40 text-green-700 dark:text-green-300' :
-                                    applicant.status === 'rejected' ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' :
-                                        'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300'
+                                applicant.status === 'rejected' ? 'bg-red-100 dark:bg-red-900/40 text-red-700 dark:text-red-300' :
+                                    'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300'
                                 }`}>
                                 {applicant.status === 'accepted' && <CheckCircle className="h-4 w-4" />}
                                 {applicant.status === 'rejected' && <XCircle className="h-4 w-4" />}
