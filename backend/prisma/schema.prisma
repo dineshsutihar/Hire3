@@ -26,6 +26,7 @@ model User {
   password      String
   bio           String?  @db.Text
   linkedinUrl   String?  @map("linkedin_url")
+  avatarUrl     String?  @map("avatar_url")
   skills        String[] @default([]) 
   walletAddress String?  @map("wallet_address")
   createdAt     DateTime @default(now()) @map("created_at")
