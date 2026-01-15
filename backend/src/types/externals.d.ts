@@ -1,10 +1,14 @@
-declare module "pdf-text-extract" {
-  function extract(
-    file: string,
-    options: { splitPages?: boolean },
-    callback: (err: any, text: string[] | string) => void
-  ): void;
-  export default extract;
+declare module "pdf-parse" {
+  interface PDFData {
+    numpages: number;
+    numrender: number;
+    info: any;
+    metadata: any;
+    text: string;
+    version: string;
+  }
+  function pdfParse(dataBuffer: Buffer, options?: any): Promise<PDFData>;
+  export default pdfParse;
 }
 
 declare module "@google/generative-ai" {

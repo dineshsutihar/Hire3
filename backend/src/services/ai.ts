@@ -1,8 +1,6 @@
 import { prisma } from "../prisma.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-
-import { existsSync } from "fs";
-import extract from "pdf-text-extract";
+import { existsSync, readFileSync } from "fs";
 
 export async function extractTextFromFile(
   filePath: string,
@@ -12,23 +10,25 @@ export async function extractTextFromFile(
     throw new Error(`File not found: ${filePath}`);
   }
   if (mimetype !== "application/pdf") {
-    throw new Error("Only PDF files are supported");
+    throw new Error("Only PDF files are supported. Please upload a PDF resume.");
   }
-  return new Promise((resolve, reject) => {
-    extract(
-      filePath,
-      { splitPages: false },
-      (err: any, text: string[] | string) => {
-        if (err) return reject(err);
-        if (Array.isArray(text)) {
-          resolve(text.join(" "));
-        } else {
-          resolve(text);
-        }
-      }
+
+  try {
+    // Dynamic import for pdf-parse (CommonJS module) - v1.x API
+    const pdfParse = (await import("pdf-parse")).default as (
+      buffer: Buffer
+    ) => Promise<{ text: string }>;
+    const dataBuffer = readFileSync(filePath);
+    const data = await pdfParse(dataBuffer);
+    return data.text || "";
+  } catch (err) {
+    console.error("PDF parsing error:", err);
+    throw new Error(
+      "Failed to parse PDF file. Please ensure it's a valid PDF document."
     );
-  });
+  }
 }
+
 export async function parseAndStoreSkills(userId: string, raw: string) {
   const apiKey = process.env.GEMINI_API_KEY;
   let skills: string[] = [];
@@ -90,16 +90,24 @@ export async function findMatchingJobs(userId: string, limit: number) {
   const userSkills: string[] = user.skills || [];
   if (!userSkills.length) return [];
   const jobs = await prisma.job.findMany({ orderBy: { createdAt: "desc" } });
-  const scored = jobs
-    .map((j: any) => {
+
+  type JobType = (typeof jobs)[0];
+  interface ScoredJob {
+    job: JobType;
+    score: number;
+  }
+
+  const scored: ScoredJob[] = jobs
+    .map((j: JobType): ScoredJob => {
       const jobSkills = parseJsonArray(j.skills);
       const overlap = jobSkills.filter((s: string) => userSkills.includes(s));
       return { job: j, score: overlap.length };
     })
-    .filter((r) => r.score > 0)
-    .sort((a, b) => b.score - a.score)
+    .filter((r: ScoredJob) => r.score > 0)
+    .sort((a: ScoredJob, b: ScoredJob) => b.score - a.score)
     .slice(0, limit);
-  return scored.map((s) => ({ ...s.job, matchScore: s.score }));
+
+  return scored.map((s: ScoredJob) => ({ ...s.job, matchScore: s.score }));
 }
 
 function parseJsonArray(raw?: string | null) {
