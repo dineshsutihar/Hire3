@@ -203,7 +203,7 @@ export const Profile = () => {
                     <div className="relative group">
                         {user?.avatarUrl ? (
                             <img
-                                src={user.avatarUrl.startsWith('http') ? user.avatarUrl : `${import.meta.env.VITE_API_BASE?.replace('/api', '')}${user.avatarUrl}`}
+                                src={user.avatarUrl}
                                 alt="Profile"
                                 className="h-24 w-24 rounded-2xl object-cover border-4 border-white dark:border-neutral-800 shadow-lg"
                             />

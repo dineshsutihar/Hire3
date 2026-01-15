@@ -1,6 +1,10 @@
 import { prisma } from "../prisma.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { existsSync, readFileSync } from "fs";
+import { getDocument, GlobalWorkerOptions } from "pdfjs-dist/legacy/build/pdf.mjs";
+
+// Disable worker for Node.js environment
+GlobalWorkerOptions.workerSrc = "";
 
 export async function extractTextFromFile(
   filePath: string,
@@ -10,17 +14,27 @@ export async function extractTextFromFile(
     throw new Error(`File not found: ${filePath}`);
   }
   if (mimetype !== "application/pdf") {
-    throw new Error("Only PDF files are supported. Please upload a PDF resume.");
+    throw new Error(
+      "Only PDF files are supported. Please upload a PDF resume."
+    );
   }
 
   try {
-    // Dynamic import for pdf-parse (CommonJS module) - v1.x API
-    const pdfParse = (await import("pdf-parse")).default as (
-      buffer: Buffer
-    ) => Promise<{ text: string }>;
     const dataBuffer = readFileSync(filePath);
-    const data = await pdfParse(dataBuffer);
-    return data.text || "";
+    const data = new Uint8Array(dataBuffer);
+    const pdf = await getDocument({ data, useSystemFonts: true }).promise;
+
+    let fullText = "";
+    for (let i = 1; i <= pdf.numPages; i++) {
+      const page = await pdf.getPage(i);
+      const textContent = await page.getTextContent();
+      const pageText = textContent.items
+        .map((item: any) => item.str)
+        .join(" ");
+      fullText += pageText + "\n";
+    }
+
+    return fullText.trim();
   } catch (err) {
     console.error("PDF parsing error:", err);
     throw new Error(

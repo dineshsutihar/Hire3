@@ -1,14 +1,40 @@
-declare module "pdf-parse" {
-  interface PDFData {
-    numpages: number;
-    numrender: number;
-    info: any;
-    metadata: any;
-    text: string;
-    version: string;
+declare module "pdfjs-dist/legacy/build/pdf.mjs" {
+  export interface TextItem {
+    str: string;
+    dir?: string;
+    transform?: number[];
+    width?: number;
+    height?: number;
+    fontName?: string;
+    hasEOL?: boolean;
   }
-  function pdfParse(dataBuffer: Buffer, options?: any): Promise<PDFData>;
-  export default pdfParse;
+
+  export interface TextContent {
+    items: TextItem[];
+    styles: Record<string, any>;
+  }
+
+  export interface PDFPageProxy {
+    getTextContent(): Promise<TextContent>;
+  }
+
+  export interface PDFDocumentProxy {
+    numPages: number;
+    getPage(pageNumber: number): Promise<PDFPageProxy>;
+  }
+
+  export interface PDFDocumentLoadingTask {
+    promise: Promise<PDFDocumentProxy>;
+  }
+
+  export function getDocument(params: {
+    data: Uint8Array;
+    useSystemFonts?: boolean;
+  }): PDFDocumentLoadingTask;
+
+  export const GlobalWorkerOptions: {
+    workerSrc: string;
+  };
 }
 
 declare module "@google/generative-ai" {

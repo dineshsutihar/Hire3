@@ -4,7 +4,7 @@ import { authAtom, userSelector } from '../../store/auth';
 import Button from '../Button';
 import { useToast } from '../Toast';
 import { createPost, type Post } from '../../api/client';
-import { Image, Video, FileText, Hash, X, Send, Sparkles } from 'lucide-react';
+import { Image as ImageIcon, Video, FileText, X, Send, Trash2 } from 'lucide-react';
 
 export interface PostComposerProps {
     onCreated: (p: Post) => void;
@@ -21,7 +21,10 @@ const PostComposer: React.FC<PostComposerProps> = ({ onCreated, onClose }) => {
     const [tags, setTags] = React.useState<string[]>([]);
     const [tagInput, setTagInput] = React.useState('');
     const [posting, setPosting] = React.useState(false);
+    const [imageFile, setImageFile] = React.useState<File | null>(null);
+    const [imagePreview, setImagePreview] = React.useState<string | null>(null);
     const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+    const imageInputRef = React.useRef<HTMLInputElement>(null);
 
     // Auto-resize textarea
     React.useEffect(() => {
@@ -52,6 +55,41 @@ const PostComposer: React.FC<PostComposerProps> = ({ onCreated, onClose }) => {
         }
     };
 
+    const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        // Validate file type
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+            notify({ type: 'error', title: 'Invalid file', description: 'Only JPEG, PNG, GIF, and WebP images are allowed.' });
+            return;
+        }
+
+        // Validate file size (10MB max)
+        if (file.size > 10 * 1024 * 1024) {
+            notify({ type: 'error', title: 'File too large', description: 'Maximum image size is 10MB.' });
+            return;
+        }
+
+        setImageFile(file);
+
+        // Create preview
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+            setImagePreview(ev.target?.result as string);
+        };
+        reader.readAsDataURL(file);
+    };
+
+    const removeImage = () => {
+        setImageFile(null);
+        setImagePreview(null);
+        if (imageInputRef.current) {
+            imageInputRef.current.value = '';
+        }
+    };
+
     const submit = async () => {
         if (!auth.token) return;
         if (!title.trim() || !content.trim()) {
@@ -65,8 +103,10 @@ const PostComposer: React.FC<PostComposerProps> = ({ onCreated, onClose }) => {
                 content: content.trim(),
                 type,
                 tags,
+                image: imageFile || undefined,
             });
             setTitle(''); setContent(''); setTags([]); setType('advice');
+            removeImage();
             onCreated(post);
             notify({ type: 'success', title: 'Posted!', description: 'Your post has been published.' });
             onClose?.();
@@ -120,6 +160,27 @@ const PostComposer: React.FC<PostComposerProps> = ({ onCreated, onClose }) => {
                 className="w-full bg-transparent border-none outline-none resize-none text-sm leading-relaxed placeholder:text-muted-foreground/60"
             />
 
+            {/* Image Preview */}
+            {imagePreview && (
+                <div className="relative rounded-xl overflow-hidden border border-border/50 bg-muted/5">
+                    <img
+                        src={imagePreview}
+                        alt="Post preview"
+                        className="w-full max-h-80 object-contain"
+                    />
+                    <button
+                        onClick={removeImage}
+                        className="absolute top-2 right-2 p-2 bg-black/60 hover:bg-black/80 text-white rounded-full transition-colors"
+                        title="Remove image"
+                    >
+                        <Trash2 size={16} />
+                    </button>
+                    <div className="absolute bottom-2 left-2 px-2 py-1 bg-black/60 text-white text-xs rounded-md">
+                        {imageFile?.name} ({(imageFile?.size || 0 / 1024 / 1024).toFixed(2)} MB)
+                    </div>
+                </div>
+            )}
+
             {/* Tags Section */}
             <div className="space-y-2">
                 <div className="flex flex-wrap items-center gap-2 min-h-[36px] p-2 bg-muted/5 rounded-lg border border-border/50">
@@ -162,13 +223,26 @@ const PostComposer: React.FC<PostComposerProps> = ({ onCreated, onClose }) => {
             {/* Actions Footer */}
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1">
-                    <button className="p-2 rounded-lg hover:bg-muted/10 text-muted-foreground transition-colors" title="Add image">
-                        <Image size={20} />
-                    </button>
-                    <button className="p-2 rounded-lg hover:bg-muted/10 text-muted-foreground transition-colors" title="Add video">
+                    {/* Hidden file input */}
+                    <input
+                        ref={imageInputRef}
+                        type="file"
+                        accept="image/jpeg,image/png,image/gif,image/webp"
+                        onChange={handleImageSelect}
+                        className="hidden"
+                        id="post-image-upload"
+                    />
+                    <label
+                        htmlFor="post-image-upload"
+                        className={`p-2 rounded-lg hover:bg-muted/10 transition-colors cursor-pointer ${imagePreview ? 'text-primary' : 'text-muted-foreground'}`}
+                        title="Add image"
+                    >
+                        <ImageIcon size={20} />
+                    </label>
+                    <button className="p-2 rounded-lg hover:bg-muted/10 text-muted-foreground/40 transition-colors cursor-not-allowed" title="Video (coming soon)" disabled>
                         <Video size={20} />
                     </button>
-                    <button className="p-2 rounded-lg hover:bg-muted/10 text-muted-foreground transition-colors" title="Add document">
+                    <button className="p-2 rounded-lg hover:bg-muted/10 text-muted-foreground/40 transition-colors cursor-not-allowed" title="Document (coming soon)" disabled>
                         <FileText size={20} />
                     </button>
                 </div>

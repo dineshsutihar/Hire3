@@ -71,6 +71,7 @@ model Post {
   content   String
   type      String
   tags      String   @default("[]")
+  imageUrl  String?  @map("image_url") // Base64 data URI for post images
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
   userId    String   @map("user_id")

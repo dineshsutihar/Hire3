@@ -77,6 +77,18 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                 )}
             </div>
 
+            {/* Post Image */}
+            {post.imageUrl && (
+                <div className="relative">
+                    <img
+                        src={post.imageUrl}
+                        alt={post.title}
+                        className="w-full max-h-[500px] object-cover"
+                        loading="lazy"
+                    />
+                </div>
+            )}
+
             {/* Tags */}
             {post.tags && post.tags.length > 0 && (
                 <div className="px-4 pb-3 flex flex-wrap gap-1.5">

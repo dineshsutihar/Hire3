@@ -1,8 +1,39 @@
 import { Router } from "express";
 import { authMiddleware } from "../middleware/auth.js";
 import { prisma } from "../prisma.js";
+import multer from "multer";
+import sharp from "sharp";
 
 const router = Router();
+
+// Multer memory storage for image processing
+const upload = multer();
+
+// Image upload middleware with compression
+const processPostImage = async (
+  file: Express.Multer.File | undefined
+): Promise<string | null> => {
+  if (!file) return null;
+
+  const allowedTypes = ["image/jpeg", "image/png", "image/gif", "image/webp"];
+  if (!allowedTypes.includes(file.mimetype)) {
+    throw new Error("Invalid image type. Only JPEG, PNG, GIF, WebP are allowed.");
+  }
+
+  // Check file size (10MB max)
+  if (file.size > 10 * 1024 * 1024) {
+    throw new Error("Image too large. Maximum size is 10MB.");
+  }
+
+  // Compress and resize image to max 1200px width
+  const compressedBuffer = await sharp(file.buffer)
+    .resize(1200, 1200, { fit: "inside", withoutEnlargement: true })
+    .jpeg({ quality: 85 })
+    .toBuffer();
+
+  const base64Image = compressedBuffer.toString("base64");
+  return `data:image/jpeg;base64,${base64Image}`;
+};
 
 // Helpers
 const parseArray = (raw: string) => {
@@ -48,20 +79,51 @@ router.get("/posts/:id", async (req, res, next) => {
   }
 });
 
-// POST /posts (auth)
-router.post("/posts", authMiddleware, async (req, res, next) => {
-  try {
-    const { title, content, type, tags = [] } = req.body;
-    if (!title || !content || !type)
-      return res.status(400).json({ message: "title, content, type required" });
-    const post = await prisma.post.create({
-      data: { title, content, type, tags: toJson(tags), userId: req.user!.sub },
-    });
-    res.status(201).json({ ...post, tags });
-  } catch (e) {
-    next(e);
+// POST /posts (auth) - supports image upload
+router.post(
+  "/posts",
+  authMiddleware,
+  upload.single("image"),
+  async (req, res, next) => {
+    try {
+      const { title, content, type } = req.body;
+      // Parse tags from JSON string (FormData sends as string)
+      let tags: string[] = [];
+      try {
+        tags = req.body.tags ? JSON.parse(req.body.tags) : [];
+      } catch {
+        tags = [];
+      }
+
+      if (!title || !content || !type)
+        return res
+          .status(400)
+          .json({ message: "title, content, type required" });
+
+      // Process image if uploaded
+      let imageUrl: string | null = null;
+      try {
+        imageUrl = await processPostImage(req.file);
+      } catch (err: any) {
+        return res.status(400).json({ message: err.message });
+      }
+
+      const post = await prisma.post.create({
+        data: {
+          title,
+          content,
+          type,
+          tags: toJson(tags),
+          imageUrl,
+          userId: req.user!.sub,
+        },
+      });
+      res.status(201).json({ ...post, tags });
+    } catch (e) {
+      next(e);
+    }
   }
-});
+);
 
 // PUT /posts/:id (owner)
 router.put("/posts/:id", authMiddleware, async (req, res, next) => {

@@ -396,10 +396,16 @@ export interface PostInput {
   content: string;
   type: "advice" | "update" | string;
   tags?: string[];
+  image?: File; // Optional image file
 }
 
-export interface Post extends PostInput {
+export interface Post {
   id: string;
+  title: string;
+  content: string;
+  type: string;
+  tags: string[];
+  imageUrl?: string | null;
   userId: string;
   createdAt: string;
   updatedAt: string;
@@ -423,11 +429,24 @@ export async function createPost(
   token: string,
   input: PostInput
 ): Promise<Post> {
-  return request<Post>(
-    `/posts`,
-    { method: "POST", body: JSON.stringify(input) },
-    token
-  );
+  // Use FormData if image is provided
+  if (input.image) {
+    const fd = new FormData();
+    fd.append("title", input.title);
+    fd.append("content", input.content);
+    fd.append("type", input.type);
+    fd.append("tags", JSON.stringify(input.tags || []));
+    fd.append("image", input.image);
+    return request<Post>(`/posts`, { method: "POST", body: fd }, token);
+  }
+
+  // Regular JSON request without image
+  const fd = new FormData();
+  fd.append("title", input.title);
+  fd.append("content", input.content);
+  fd.append("type", input.type);
+  fd.append("tags", JSON.stringify(input.tags || []));
+  return request<Post>(`/posts`, { method: "POST", body: fd }, token);
 }
 
 export async function getMyPosts(token: string): Promise<Post[]> {
