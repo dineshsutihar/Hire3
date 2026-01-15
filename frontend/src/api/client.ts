@@ -183,6 +183,12 @@ export async function getJobMatches(
 export interface JobInput {
   title: string;
   description: string;
+  companyName?: string;
+  role?: string;
+  industry?: string;
+  salaryRange?: string;
+  experienceLevel?: string;
+  companyType?: string;
   skills?: string[];
   workMode?: string;
   location?: string;
