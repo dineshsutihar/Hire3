@@ -1,354 +1,706 @@
-<div align="center"><div align="center"><div align="center">
+<div align="center"><div align="center"><div align="center"><div align="center">
 
 
 
-# 🚀 Hire3	<h1>🚀 Hire3</h1>	<h1>🚀 Hire3</h1>
+# 🚀 Hire3
 
 
 
-**The Future of Work, Powered by Web3 & AI**	<p><strong>The Future of Work, Powered by Web3 & AI</strong></p>	<p><strong>The Future of Work, Powered by Web3 & AI</strong></p>
+**The Future of Work, Powered by Web3 & AI**# 🚀 Hire3	<h1>🚀 Hire3</h1>	<h1>🚀 Hire3</h1>
 
 
 
-*Connect. Match. Work.*	<p><em>Connect. Match. Work.</em></p>	<p><em>Connect. Match. Work.</em></p>
+*Connect. Match. Work.*
 
 
 
-<br/>	<br/>	<br/>
+<br/>**The Future of Work, Powered by Web3 & AI**	<p><strong>The Future of Work, Powered by Web3 & AI</strong></p>	<p><strong>The Future of Work, Powered by Web3 & AI</strong></p>
 
 
 
-<p>	<p>	<p>
+<p>
 
   <img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react" alt="React" />
 
-  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />		<img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react" alt="React" />		<img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />*Connect. Match. Work.*	<p><em>Connect. Match. Work.</em></p>	<p><em>Connect. Match. Work.</em></p>
 
   <img src="https://img.shields.io/badge/Tailwind-3-38B2AC?style=flat-square&logo=tailwindcss" alt="Tailwind" />
 
-  <img src="https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express" alt="Express" />		<img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />		<img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express" alt="Express" />
 
   <img src="https://img.shields.io/badge/Prisma-5-2D3748?style=flat-square&logo=prisma" alt="Prisma" />
 
-  <img src="https://img.shields.io/badge/Solana-Devnet-9945FF?style=flat-square&logo=solana" alt="Solana" />		<img src="https://img.shields.io/badge/Tailwind-3-38B2AC?style=flat-square&logo=tailwindcss" alt="Tailwind" />		<img src="https://img.shields.io/badge/Tailwind-3-38B2AC?style=flat-square&logo=tailwindcss" alt="Tailwind" />
+  <img src="https://img.shields.io/badge/Solana-Devnet-9945FF?style=flat-square&logo=solana" alt="Solana" /><br/>	<br/>	<br/>
 
 </p>
 
-		<img src="https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express" alt="Express" />		<img src="https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express" alt="Express" />
+
 
 </div>
 
-		<img src="https://img.shields.io/badge/Prisma-5-2D3748?style=flat-square&logo=prisma" alt="Prisma" />		<img src="https://img.shields.io/badge/Prisma-5-2D3748?style=flat-square&logo=prisma" alt="Prisma" />
+<p>	<p>	<p>
 
 ---
 
-		<img src="https://img.shields.io/badge/Solana-Devnet-9945FF?style=flat-square&logo=solana" alt="Solana" />		<img src="https://img.shields.io/badge/Solana-Devnet-9945FF?style=flat-square&logo=solana" alt="Solana" />
+  <img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react" alt="React" />
 
 ## 📋 Overview
 
-	</p>	</p>
+  <img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />		<img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react" alt="React" />		<img src="https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react" alt="React" />
 
 Hire3 is a full-stack Web3 talent platform connecting exceptional talent with innovative teams. It features a modern React frontend, Express/TypeScript backend with Prisma ORM, and Solana blockchain integration for transparent, verifiable job posting payments.
 
-</div></div>
+  <img src="https://img.shields.io/badge/Tailwind-3-38B2AC?style=flat-square&logo=tailwindcss" alt="Tailwind" />
 
 ## 📸 Screenshots
 
-
+  <img src="https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express" alt="Express" />		<img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />		<img src="https://img.shields.io/badge/TypeScript-5-3178C6?style=flat-square&logo=typescript" alt="TypeScript" />
 
 ### Landing Page
 
-![Landing Page](dist-image/landing-page.png)------
+![Landing Page](dist-image/landing-page.png)  <img src="https://img.shields.io/badge/Prisma-5-2D3748?style=flat-square&logo=prisma" alt="Prisma" />
 
 
 
-### Dashboard Overview
+### Dashboard Overview  <img src="https://img.shields.io/badge/Solana-Devnet-9945FF?style=flat-square&logo=solana" alt="Solana" />		<img src="https://img.shields.io/badge/Tailwind-3-38B2AC?style=flat-square&logo=tailwindcss" alt="Tailwind" />		<img src="https://img.shields.io/badge/Tailwind-3-38B2AC?style=flat-square&logo=tailwindcss" alt="Tailwind" />
 
 ![Dashboard](dist-image/dashboard-overview.png)
 
-## 📋 Overview## 📋 Overview
+</p>
 
 ### Browse Jobs
 
-![Browse Jobs](dist-image/browse-jobs-page.png)
+![Browse Jobs](dist-image/browse-jobs-page.png)		<img src="https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express" alt="Express" />		<img src="https://img.shields.io/badge/Express-4-000000?style=flat-square&logo=express" alt="Express" />
 
 
 
-### Manage JobsHire3 is a full-stack Web3 talent platform connecting exceptional talent with innovative teams. It features a modern React frontend, Express/TypeScript backend with Prisma ORM, and Solana blockchain integration for transparent, verifiable job posting payments.Hire3 is a full-stack Web3 talent platform connecting exceptional talent with innovative teams. It features a modern React frontend, Express/TypeScript backend with Prisma ORM, and Solana blockchain integration for transparent, verifiable job posting payments.
+### Manage Jobs</div>
 
 ![My Jobs](dist-image/my-job-pages.png)
 
-
+		<img src="https://img.shields.io/badge/Prisma-5-2D3748?style=flat-square&logo=prisma" alt="Prisma" />		<img src="https://img.shields.io/badge/Prisma-5-2D3748?style=flat-square&logo=prisma" alt="Prisma" />
 
 ### Social Feed (Posts)
 
-![Posts](dist-image/Posts-page.png)### ✨ Key Features### ✨ Key Features
+![Posts](dist-image/Posts-page.png)---
 
 
 
-### Profile Page
+### Profile Page		<img src="https://img.shields.io/badge/Solana-Devnet-9945FF?style=flat-square&logo=solana" alt="Solana" />		<img src="https://img.shields.io/badge/Solana-Devnet-9945FF?style=flat-square&logo=solana" alt="Solana" />
 
 ![Profile](dist-image/profile-page.png)
 
-| Feature | Description |- **🔐 Authentication** — JWT-based auth with secure registration/login
+## 📋 Overview
 
 ---
 
-|---------|-------------|- **👤 Rich Profiles** — Bio, skills, LinkedIn, wallet address, avatar upload
+	</p>	</p>
 
 ## ✨ Key Features
 
-| 🔐 **Authentication** | JWT-based auth with secure registration/login |- **💼 Job Management** — Post, browse, filter, and manage job listings
+Hire3 is a full-stack Web3 talent platform connecting exceptional talent with innovative teams. It features a modern React frontend, Express/TypeScript backend with Prisma ORM, and Solana blockchain integration for transparent, verifiable job posting payments.
 
 | Feature | Description |
 
-|---------|-------------|| 👤 **Rich Profiles** | Bio, skills, LinkedIn, wallet address, avatar upload |- **📝 Applications** — Apply to jobs, track status, manage applicants
+|---------|-------------|</div></div>
 
 | 🔐 **Authentication** | JWT-based auth with secure registration/login |
 
-| 👤 **Rich Profiles** | Bio, skills, LinkedIn, wallet address, avatar upload || 💼 **Job Management** | Post, browse, filter, update, and manage job listings |- **💬 Social Feed** — LinkedIn-style posts with likes and comments
+| 👤 **Rich Profiles** | Bio, skills, LinkedIn, wallet address, avatar upload |## 📸 Screenshots
 
 | 💼 **Job Management** | Post, browse, filter, update, and manage job listings |
 
-| 📝 **Applications** | Apply to jobs, track status, manage applicants with match scores || 📝 **Applications** | Apply to jobs, track status, manage applicants with match scores |- **💰 Web3 Payments** — Solana platform fee with on-chain verification
+| 📝 **Applications** | Apply to jobs, track status, manage applicants with match scores |
 
 | 💬 **Social Feed** | LinkedIn-style posts with likes and comments |
 
-| 💰 **Web3 Payments** | Solana platform fee with on-chain verification (optional) || 💬 **Social Feed** | LinkedIn-style posts with likes and comments |- **🎨 Dark Mode** — Full dark/light theme support
+| 💰 **Web3 Payments** | Solana platform fee with on-chain verification (optional) |### Landing Page
 
 | 🤖 **AI Features** | Resume parsing, job-skill matching |
 
-| 🎨 **Dark Mode** | Full dark/light theme support || 💰 **Web3 Payments** | Solana platform fee with on-chain verification (optional) |- **📱 Responsive** — Mobile-first design with Tailwind CSS
+| 🎨 **Dark Mode** | Full dark/light theme support |![Landing Page](dist-image/landing-page.png)------
 
 | 📱 **Responsive** | Mobile-first design with Tailwind CSS |
 
-| 🤖 **AI Features** | Resume parsing, job-skill matching |
+
 
 ---
 
-| 🎨 **Dark Mode** | Full dark/light theme support |---
+### Dashboard Overview
 
 ## 🏗️ Architecture
 
-| 📱 **Responsive** | Mobile-first design with Tailwind CSS |
+![Dashboard](dist-image/dashboard-overview.png)
 
 ```
 
-Hire3/## 🏗️ Architecture
+Hire3/## 📋 Overview## 📋 Overview
 
 ├── frontend/              # React + Vite + Tailwind
 
-│   ├── src/---
+│   ├── src/### Browse Jobs
 
 │   │   ├── api/           # API client with typed helpers
 
-│   │   ├── components/    # Reusable UI components```
+│   │   ├── components/    # Reusable UI components![Browse Jobs](dist-image/browse-jobs-page.png)
 
 │   │   │   ├── managejobs/# Job management components
 
-│   │   │   └── posts/     # Social feed components## 🏗️ ArchitectureHire3/
+│   │   │   └── posts/     # Social feed components
 
 │   │   ├── pages/         # Route pages
 
-│   │   ├── store/         # Recoil state management├── frontend/          # React + Vite + Tailwind
+│   │   ├── store/         # Recoil state management### Manage JobsHire3 is a full-stack Web3 talent platform connecting exceptional talent with innovative teams. It features a modern React frontend, Express/TypeScript backend with Prisma ORM, and Solana blockchain integration for transparent, verifiable job posting payments.Hire3 is a full-stack Web3 talent platform connecting exceptional talent with innovative teams. It features a modern React frontend, Express/TypeScript backend with Prisma ORM, and Solana blockchain integration for transparent, verifiable job posting payments.
 
 │   │   └── web3/          # Solana integration
 
-│   └── ...```│   ├── src/
+│   └── ...![My Jobs](dist-image/my-job-pages.png)
 
 ├── backend/               # Express + TypeScript + Prisma
 
-│   ├── src/Hire3/│   │   ├── api/       # API client with typed helpers
+│   ├── src/
 
 │   │   ├── routes/        # API route handlers
 
-│   │   ├── middleware/    # Auth, error handling├── frontend/              # React + Vite + Tailwind│   │   ├── components/# Reusable UI components
+│   │   ├── middleware/    # Auth, error handling### Social Feed (Posts)
 
 │   │   ├── services/      # Business logic (AI, etc.)
 
-│   │   └── types/         # TypeScript definitions│   ├── src/│   │   ├── pages/     # Route pages
+│   │   └── types/         # TypeScript definitions![Posts](dist-image/Posts-page.png)### ✨ Key Features### ✨ Key Features
 
 │   └── prisma/            # Database schema & migrations
 
-└── docs/                  # Documentation│   │   ├── api/           # API client with typed helpers│   │   ├── store/     # Recoil state management
+└── docs/                  # Documentation
 
 ```
 
-│   │   ├── components/    # Reusable UI components│   │   └── web3/      # Solana integration
+### Profile Page
 
 ---
 
-│   │   │   ├── managejobs/# Job management components│   └── ...
+![Profile](dist-image/profile-page.png)
 
 ## 📦 Prerequisites
 
-│   │   │   └── posts/     # Social feed components├── backend/           # Express + TypeScript + Prisma
+| Feature | Description |- **🔐 Authentication** — JWT-based auth with secure registration/login
 
 - **Node.js** 18+
 
-- **PostgreSQL** (local or hosted — [Neon](https://neon.tech) recommended)│   │   ├── pages/         # Route pages│   ├── src/
+- **PostgreSQL** (local or hosted — [Neon](https://neon.tech) recommended)---
 
 - **Solana Wallet** (Phantom) on Devnet for Web3 features (optional)
 
-│   │   ├── store/         # Recoil state management│   │   ├── routes/    # API route handlers
+|---------|-------------|- **👤 Rich Profiles** — Bio, skills, LinkedIn, wallet address, avatar upload
 
 ---
 
-│   │   └── web3/          # Solana integration│   │   ├── middleware/# Auth, error handling
+## ✨ Key Features
 
 ## 🚀 Quick Start
 
-│   └── ...│   │   ├── services/  # Business logic (AI, etc.)
+| 🔐 **Authentication** | JWT-based auth with secure registration/login |- **💼 Job Management** — Post, browse, filter, and manage job listings
 
 ### 1. Clone and Install
 
-├── backend/               # Express + TypeScript + Prisma│   │   └── types/     # TypeScript definitions
+| Feature | Description |
 
 ```bash
 
-git clone https://github.com/dineshsutihar/Hire3.git│   ├── src/│   └── prisma/        # Database schema & migrations
+git clone https://github.com/dineshsutihar/Hire3.git|---------|-------------|| 👤 **Rich Profiles** | Bio, skills, LinkedIn, wallet address, avatar upload |- **📝 Applications** — Apply to jobs, track status, manage applicants
 
 cd Hire3
 
-│   │   ├── routes/        # API route handlers└── docs/              # Documentation
+| 🔐 **Authentication** | JWT-based auth with secure registration/login |
 
 # Install backend dependencies
 
-cd backend && npm install│   │   ├── middleware/    # Auth, error handling```
+cd backend && npm install| 👤 **Rich Profiles** | Bio, skills, LinkedIn, wallet address, avatar upload || 💼 **Job Management** | Post, browse, filter, update, and manage job listings |- **💬 Social Feed** — LinkedIn-style posts with likes and comments
 
 
 
-# Install frontend dependencies│   │   ├── services/      # Business logic (AI, etc.)
+# Install frontend dependencies| 💼 **Job Management** | Post, browse, filter, update, and manage job listings |
 
 cd ../frontend && npm install
 
-```│   │   └── types/         # TypeScript definitions## ✨ Features
+```| 📝 **Applications** | Apply to jobs, track status, manage applicants with match scores || 📝 **Applications** | Apply to jobs, track status, manage applicants with match scores |- **💰 Web3 Payments** — Solana platform fee with on-chain verification
 
 
 
-### 2. Configure Backend Environment│   └── prisma/            # Database schema & migrations
+### 2. Configure Backend Environment| 💬 **Social Feed** | LinkedIn-style posts with likes and comments |
 
 
 
-Create `backend/.env` (see `backend/.env.example`):└── docs/                  # Documentation- **Auth**: Register/login with JWT, protected routes
+Create `backend/.env` (see `backend/.env.example`):| 💰 **Web3 Payments** | Solana platform fee with on-chain verification (optional) || 💬 **Social Feed** | LinkedIn-style posts with likes and comments |- **🎨 Dark Mode** — Full dark/light theme support
 
 
 
-```dotenv```- **Profiles**: Bio, skills, LinkedIn, wallet address, avatar
+```dotenv| 🤖 **AI Features** | Resume parsing, job-skill matching |
 
 DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DBNAME?sslmode=require
 
-JWT_SECRET=your_super_secret_key_here- **Jobs**: List, view, create (with optional platform fee), update, manage
+JWT_SECRET=your_super_secret_key_here| 🎨 **Dark Mode** | Full dark/light theme support || 💰 **Web3 Payments** | Solana platform fee with on-chain verification (optional) |- **📱 Responsive** — Mobile-first design with Tailwind CSS
 
 PORT=4000
 
-CORS_ORIGIN=http://localhost:5173---- **Applications**: Apply to jobs, track status, manage applicants with match scores
+CORS_ORIGIN=http://localhost:5173| 📱 **Responsive** | Mobile-first design with Tailwind CSS |
 
 
 
-# Solana Configuration- **Posts**: LinkedIn-style social feed with likes and comments
+# Solana Configuration| 🤖 **AI Features** | Resume parsing, job-skill matching |
 
 SOLANA_RPC=https://api.devnet.solana.com
 
-SOLANA_ADMIN=<YOUR_ADMIN_WALLET_PUBLIC_KEY>## 📦 Prerequisites- **Web3**: Solana platform fee (configurable, can be set to 0 for testing)
+SOLANA_ADMIN=<YOUR_ADMIN_WALLET_PUBLIC_KEY>---
 
 SOLANA_PLATFORM_FEE_SOL=0  # Set to 0 for free posting during dev
 
-- **AI**: Resume parsing, job-skill matching
+| 🎨 **Dark Mode** | Full dark/light theme support |---
 
 # AI Features (optional)
 
-GEMINI_API_KEY=<YOUR_GEMINI_API_KEY>- **Node.js** 18+
+GEMINI_API_KEY=<YOUR_GEMINI_API_KEY>## 🏗️ Architecture
 
 ```
 
-- **PostgreSQL** (local or hosted — [Neon](https://neon.tech) recommended)## 📦 Prerequisites
+| 📱 **Responsive** | Mobile-first design with Tailwind CSS |
 
 > 💡 **Tip**: Set `SOLANA_PLATFORM_FEE_SOL=0` to disable payment requirements during development.
 
-- **Solana Wallet** (Phantom) on Devnet for Web3 features (optional)
+```
 
 ### 3. Configure Frontend Environment
 
-- **Node.js** 18+ 
+Hire3/## 🏗️ Architecture
 
 Create `frontend/.env` (see `frontend/.env.example`):
 
----- **PostgreSQL** (local or hosted — [Neon](https://neon.tech) recommended)
+├── frontend/              # React + Vite + Tailwind
 
 ```dotenv
 
-VITE_API_BASE=http://localhost:4000/api- **Solana Wallet** (Phantom) on Devnet for Web3 features
+VITE_API_BASE=http://localhost:4000/api│   ├── src/---
 
 VITE_SOLANA_RPC=https://api.devnet.solana.com
 
-VITE_SOLANA_ADMIN=<YOUR_ADMIN_WALLET_PUBLIC_KEY>  # Must match backend## 🚀 Quick Start
+VITE_SOLANA_ADMIN=<YOUR_ADMIN_WALLET_PUBLIC_KEY>  # Must match backend│   │   ├── api/           # API client with typed helpers
 
 ```
 
-## 🚀 Quick Start
+│   │   ├── components/    # Reusable UI components```
 
 ### 4. Initialize Database
 
-### 1. Clone and Install
+│   │   │   ├── managejobs/# Job management components
 
 ```bash
 
-cd backend### 1. Clone and Install
+cd backend│   │   │   └── posts/     # Social feed components## 🏗️ ArchitectureHire3/
 
 npx prisma generate
 
-npx prisma migrate dev --name init```bash
+npx prisma migrate dev --name init│   │   ├── pages/         # Route pages
 
 npm run seed  # Optional: populate with test data
 
-```git clone https://github.com/dineshsutihar/Hire3.git```bash
+```│   │   ├── store/         # Recoil state management├── frontend/          # React + Vite + Tailwind
 
 
 
-### 5. Run Development Serverscd Hire3git clone https://github.com/dineshsutihar/Hire3.git
+### 5. Run Development Servers│   │   └── web3/          # Solana integration
 
 
 
-**Terminal 1 — Backend:**cd Hire3
+**Terminal 1 — Backend:**│   └── ...```│   ├── src/
 
 ```bash
 
-cd backend# Install backend dependencies
+cd backend├── backend/               # Express + TypeScript + Prisma
 
 npm run dev
 
-# Server runs on http://localhost:4000cd backend && npm install# Install all dependencies
+# Server runs on http://localhost:4000│   ├── src/Hire3/│   │   ├── api/       # API client with typed helpers
 
 ```
 
-cd backend && npm install
+│   │   ├── routes/        # API route handlers
 
 **Terminal 2 — Frontend:**
 
-```bash# Install frontend dependenciescd ../frontend && npm install
+```bash│   │   ├── middleware/    # Auth, error handling├── frontend/              # React + Vite + Tailwind│   │   ├── components/# Reusable UI components
 
 cd frontend
 
-npm run devcd ../frontend && npm install```
+npm run dev│   │   ├── services/      # Business logic (AI, etc.)
 
 # App runs on http://localhost:5173
 
+```│   │   └── types/         # TypeScript definitions│   ├── src/│   │   ├── pages/     # Route pages
+
+
+
+---│   └── prisma/            # Database schema & migrations
+
+
+
+## 📜 Available Scripts└── docs/                  # Documentation│   │   ├── api/           # API client with typed helpers│   │   ├── store/     # Recoil state management
+
+
+
+### Backend (`/backend`)```
+
+
+
+| Script | Description |│   │   ├── components/    # Reusable UI components│   │   └── web3/      # Solana integration
+
+|--------|-------------|
+
+| `npm run dev` | Start development server with hot reload |---
+
+| `npm run build` | Compile TypeScript to JavaScript |
+
+| `npm start` | Run production build |│   │   │   ├── managejobs/# Job management components│   └── ...
+
+| `npm run seed` | Populate database with test data |
+
+| `npx prisma studio` | Open Prisma database GUI |## 📦 Prerequisites
+
+
+
+### Frontend (`/frontend`)│   │   │   └── posts/     # Social feed components├── backend/           # Express + TypeScript + Prisma
+
+
+
+| Script | Description |- **Node.js** 18+
+
+|--------|-------------|
+
+| `npm run dev` | Start Vite dev server |- **PostgreSQL** (local or hosted — [Neon](https://neon.tech) recommended)│   │   ├── pages/         # Route pages│   ├── src/
+
+| `npm run build` | Build for production |
+
+| `npm run preview` | Preview production build |- **Solana Wallet** (Phantom) on Devnet for Web3 features (optional)
+
+
+
+---│   │   ├── store/         # Recoil state management│   │   ├── routes/    # API route handlers
+
+
+
+## 🔌 API Reference---
+
+
+
+### Authentication│   │   └── web3/          # Solana integration│   │   ├── middleware/# Auth, error handling
+
+| Method | Endpoint | Auth | Description |
+
+|--------|----------|------|-------------|## 🚀 Quick Start
+
+| POST | `/api/auth/register` | ❌ | Register new user |
+
+| POST | `/api/auth/login` | ❌ | Login and get JWT |│   └── ...│   │   ├── services/  # Business logic (AI, etc.)
+
+| GET | `/api/auth/me` | ✅ | Get current user |
+
+### 1. Clone and Install
+
+### Jobs
+
+| Method | Endpoint | Auth | Description |├── backend/               # Express + TypeScript + Prisma│   │   └── types/     # TypeScript definitions
+
+|--------|----------|------|-------------|
+
+| GET | `/api/jobs` | ❌ | List all jobs |```bash
+
+| GET | `/api/jobs/:id` | ❌ | Get job details |
+
+| POST | `/api/jobs` | ✅ | Create job (requires payment if fee > 0) |git clone https://github.com/dineshsutihar/Hire3.git│   ├── src/│   └── prisma/        # Database schema & migrations
+
+| PUT | `/api/jobs/:id` | ✅ | Update job (owner only) |
+
+| DELETE | `/api/jobs/:id` | ✅ | Delete job (owner only) |cd Hire3
+
+
+
+### Applications│   │   ├── routes/        # API route handlers└── docs/              # Documentation
+
+| Method | Endpoint | Auth | Description |
+
+|--------|----------|------|-------------|# Install backend dependencies
+
+| POST | `/api/jobs/:id/apply` | ✅ | Apply to job |
+
+| GET | `/api/jobs/user/applications` | ✅ | Get user's applications |cd backend && npm install│   │   ├── middleware/    # Auth, error handling```
+
+| GET | `/api/jobs/:id/applicants` | ✅ | Get job applicants (owner only) |
+
+| PUT | `/api/jobs/:jobId/applicants/:applicationId` | ✅ | Update application status |
+
+
+
+### Profile# Install frontend dependencies│   │   ├── services/      # Business logic (AI, etc.)
+
+| Method | Endpoint | Auth | Description |
+
+|--------|----------|------|-------------|cd ../frontend && npm install
+
+| GET | `/api/profile/:id` | ❌ | Get user profile |
+
+| PUT | `/api/profile` | ✅ | Update own profile |```│   │   └── types/         # TypeScript definitions## ✨ Features
+
+| POST | `/api/profile/avatar` | ✅ | Upload avatar |
+
+
+
+### Posts
+
+| Method | Endpoint | Auth | Description |### 2. Configure Backend Environment│   └── prisma/            # Database schema & migrations
+
+|--------|----------|------|-------------|
+
+| GET | `/api/posts` | ❌ | List all posts |
+
+| POST | `/api/posts` | ✅ | Create post |
+
+| POST | `/api/posts/:id/like` | ✅ | Toggle like |Create `backend/.env` (see `backend/.env.example`):└── docs/                  # Documentation- **Auth**: Register/login with JWT, protected routes
+
+| POST | `/api/posts/:id/comments` | ✅ | Add comment |
+
+
+
+### AI Features
+
+| Method | Endpoint | Auth | Description |```dotenv```- **Profiles**: Bio, skills, LinkedIn, wallet address, avatar
+
+|--------|----------|------|-------------|
+
+| POST | `/api/ai/resume/parse` | ✅ | Parse resume PDF and extract skills |DATABASE_URL=postgresql://USER:PASSWORD@HOST:PORT/DBNAME?sslmode=require
+
+| GET | `/api/ai/jobs/match` | ✅ | Get jobs matching user skills |
+
+JWT_SECRET=your_super_secret_key_here- **Jobs**: List, view, create (with optional platform fee), update, manage
+
+### Payments
+
+| Method | Endpoint | Auth | Description |PORT=4000
+
+|--------|----------|------|-------------|
+
+| GET | `/api/payments/required` | ✅ | Get required fee amount |CORS_ORIGIN=http://localhost:5173---- **Applications**: Apply to jobs, track status, manage applicants with match scores
+
+| POST | `/api/payments/verify` | ✅ | Verify Solana transaction |
+
+
+
+---
+
+# Solana Configuration- **Posts**: LinkedIn-style social feed with likes and comments
+
+## 💳 Payment Flow
+
+SOLANA_RPC=https://api.devnet.solana.com
+
+```
+
+┌─────────────┐     1. GET /payments/required     ┌─────────────┐SOLANA_ADMIN=<YOUR_ADMIN_WALLET_PUBLIC_KEY>## 📦 Prerequisites- **Web3**: Solana platform fee (configurable, can be set to 0 for testing)
+
+│   Frontend  │ ─────────────────────────────────▶│   Backend   │
+
+│             │◀───────────────────────────────── │             │SOLANA_PLATFORM_FEE_SOL=0  # Set to 0 for free posting during dev
+
+│             │     { lamports, adminWallet }     │             │
+
+│             │                                   │             │- **AI**: Resume parsing, job-skill matching
+
+│             │     2. Sign & Send SOL            │             │
+
+│             │ ─────────────────────────────────▶│   Solana    │# AI Features (optional)
+
+│             │◀───────────────────────────────── │   Devnet    │
+
+│             │     { signature }                 │             │GEMINI_API_KEY=<YOUR_GEMINI_API_KEY>- **Node.js** 18+
+
+│             │                                   │             │
+
+│             │     3. POST /payments/verify      │             │```
+
+│             │ ─────────────────────────────────▶│   Backend   │
+
+│             │◀───────────────────────────────── │             │- **PostgreSQL** (local or hosted — [Neon](https://neon.tech) recommended)## 📦 Prerequisites
+
+│             │     { verified: true }            │             │
+
+│             │                                   │             │> 💡 **Tip**: Set `SOLANA_PLATFORM_FEE_SOL=0` to disable payment requirements during development.
+
+│             │     4. POST /jobs (create)        │             │
+
+│             │ ─────────────────────────────────▶│             │- **Solana Wallet** (Phantom) on Devnet for Web3 features (optional)
+
+└─────────────┘                                   └─────────────┘
+
+```### 3. Configure Frontend Environment
+
+
+
+> **Note**: Set `SOLANA_PLATFORM_FEE_SOL=0` in backend `.env` to skip payment verification during development.- **Node.js** 18+ 
+
+
+
+---Create `frontend/.env` (see `frontend/.env.example`):
+
+
+
+## 🚢 Deployment---- **PostgreSQL** (local or hosted — [Neon](https://neon.tech) recommended)
+
+
+
+### Backend (Railway/Render)```dotenv
+
+
+
+1. Set environment variables in dashboardVITE_API_BASE=http://localhost:4000/api- **Solana Wallet** (Phantom) on Devnet for Web3 features
+
+2. Build command: `npm run build`
+
+3. Start command: `npm start`VITE_SOLANA_RPC=https://api.devnet.solana.com
+
+4. Run migrations: `npx prisma migrate deploy`
+
+VITE_SOLANA_ADMIN=<YOUR_ADMIN_WALLET_PUBLIC_KEY>  # Must match backend## 🚀 Quick Start
+
+### Frontend (Vercel/Netlify)
+
+```
+
+1. Set `VITE_API_BASE` to production backend URL
+
+2. Build command: `npm run build`## 🚀 Quick Start
+
+3. Output directory: `dist`
+
+### 4. Initialize Database
+
+---
+
+### 1. Clone and Install
+
+## 🔧 Troubleshooting
+
+```bash
+
+| Issue | Solution |
+
+|-------|----------|cd backend### 1. Clone and Install
+
+| Database connection fails | Check `DATABASE_URL` format and SSL settings |
+
+| Prisma errors | Run `npx prisma generate` after schema changes |npx prisma generate
+
+| CORS errors | Ensure `CORS_ORIGIN` matches frontend URL |
+
+| Payment verification fails | Ensure `SOLANA_ADMIN` matches in both frontend and backend |npx prisma migrate dev --name init```bash
+
+| PDF parsing fails | Ensure uploaded file is a valid PDF with text content |
+
+npm run seed  # Optional: populate with test data
+
+---
+
+```git clone https://github.com/dineshsutihar/Hire3.git```bash
+
+## 🔒 Security Notes
+
+
+
+- Never commit `.env` files
+
+- Use strong `JWT_SECRET` in production### 5. Run Development Serverscd Hire3git clone https://github.com/dineshsutihar/Hire3.git
+
+- Validate all user inputs on the backend
+
+- Keep dependencies updated
+
+
+
+---**Terminal 1 — Backend:**cd Hire3
+
+
+
+## 🗺️ Roadmap```bash
+
+
+
+- [x] Core authentication & profilescd backend# Install backend dependencies
+
+- [x] Job posting & management
+
+- [x] Social feed with likes/commentsnpm run dev
+
+- [x] Solana payment integration
+
+- [x] AI resume parsing# Server runs on http://localhost:4000cd backend && npm install# Install all dependencies
+
+- [x] Dark mode support
+
+- [ ] Real-time notifications```
+
+- [ ] Multi-chain support
+
+- [ ] NFT badges for achievementscd backend && npm install
+
+- [ ] Mobile app (React Native)
+
+**Terminal 2 — Frontend:**
+
+---
+
+```bash# Install frontend dependenciescd ../frontend && npm install
+
+## 🤝 Contributing
+
+cd frontend
+
+1. Fork the repository
+
+2. Create a feature branch: `git checkout -b feature/amazing-feature`npm run devcd ../frontend && npm install```
+
+3. Commit changes: `git commit -m 'Add amazing feature'`
+
+4. Push to branch: `git push origin feature/amazing-feature`# App runs on http://localhost:5173
+
+5. Open a Pull Request
+
 ``````
 
+---
 
+
+
+## 📄 License
 
 ---### 2. Configure Backend (.env)
 
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+
+
+---
 
 ## 📜 Available Scripts### 2. Configure Backend Environment
 
+<div align="center">
 
+
+
+**Built with ❤️ by [Dinesh Sutihar](https://github.com/dineshsutihar)**
 
 ### Backend (`/backend`)Create `backend/.env` (see `backend/.env.example`):
 
+⭐ Star this repo if you find it useful!
 
+
+
+</div>
 
 | Script | Description |Create `backend/.env` (see `backend/.env.example`):
 
