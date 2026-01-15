@@ -49,7 +49,17 @@ const toJson = (val: unknown) => JSON.stringify(val || []);
 router.get("/posts", async (req, res, next) => {
   try {
     const { search, tag, type, userId } = req.query as Record<string, string>;
-    let posts = await prisma.post.findMany({ orderBy: { createdAt: "desc" } });
+    let posts = await prisma.post.findMany({
+      orderBy: { createdAt: "desc" },
+      include: {
+        user: {
+          select: { id: true, name: true, avatarUrl: true },
+        },
+        _count: {
+          select: { comments: true, likes: true },
+        },
+      },
+    });
     posts = posts.filter((p: any) => {
       const tags = parseArray(p.tags) as string[];
       return (
@@ -62,7 +72,15 @@ router.get("/posts", async (req, res, next) => {
         (!userId || p.userId === userId)
       );
     });
-    res.json(posts.map((p: any) => ({ ...p, tags: parseArray(p.tags) })));
+    res.json({
+      posts: posts.map((p: any) => ({
+        ...p,
+        tags: parseArray(p.tags),
+        likeCount: p._count.likes,
+        commentCount: p._count.comments,
+        _count: undefined,
+      })),
+    });
   } catch (e) {
     next(e);
   }
@@ -71,9 +89,25 @@ router.get("/posts", async (req, res, next) => {
 // GET /posts/:id
 router.get("/posts/:id", async (req, res, next) => {
   try {
-    const post = await prisma.post.findUnique({ where: { id: req.params.id } });
+    const post = await prisma.post.findUnique({
+      where: { id: req.params.id },
+      include: {
+        user: {
+          select: { id: true, name: true, avatarUrl: true },
+        },
+        _count: {
+          select: { comments: true, likes: true },
+        },
+      },
+    });
     if (!post) return res.status(404).json({ message: "Post not found" });
-    res.json({ ...post, tags: parseArray(post.tags) });
+    res.json({
+      ...post,
+      tags: parseArray(post.tags),
+      likeCount: (post as any)._count.likes,
+      commentCount: (post as any)._count.comments,
+      _count: undefined,
+    });
   } catch (e) {
     next(e);
   }
@@ -180,6 +214,145 @@ router.get("/my-posts", authMiddleware, async (req, res, next) => {
       orderBy: { createdAt: "desc" },
     });
     res.json(posts.map((p: any) => ({ ...p, tags: parseArray(p.tags) })));
+  } catch (e) {
+    next(e);
+  }
+});
+
+// ==================== COMMENTS ====================
+
+// GET /posts/:id/comments - Get comments for a post
+router.get("/posts/:id/comments", async (req, res, next) => {
+  try {
+    const comments = await prisma.comment.findMany({
+      where: { postId: req.params.id },
+      include: {
+        user: {
+          select: { id: true, name: true, avatarUrl: true },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    });
+    res.json(comments);
+  } catch (e) {
+    next(e);
+  }
+});
+
+// POST /posts/:id/comments - Add a comment
+router.post("/posts/:id/comments", authMiddleware, async (req, res, next) => {
+  try {
+    const { content } = req.body;
+    if (!content || !content.trim()) {
+      return res.status(400).json({ message: "Comment content is required" });
+    }
+
+    const post = await prisma.post.findUnique({ where: { id: req.params.id } });
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    const comment = await prisma.comment.create({
+      data: {
+        content: content.trim(),
+        postId: req.params.id,
+        userId: req.user!.sub,
+      },
+      include: {
+        user: {
+          select: { id: true, name: true, avatarUrl: true },
+        },
+      },
+    });
+    res.status(201).json(comment);
+  } catch (e) {
+    next(e);
+  }
+});
+
+// DELETE /comments/:id - Delete a comment (owner only)
+router.delete("/comments/:id", authMiddleware, async (req, res, next) => {
+  try {
+    const comment = await prisma.comment.findUnique({
+      where: { id: req.params.id },
+    });
+    if (!comment) {
+      return res.status(404).json({ message: "Comment not found" });
+    }
+    if (comment.userId !== req.user!.sub) {
+      return res.status(403).json({ message: "Access denied" });
+    }
+    await prisma.comment.delete({ where: { id: req.params.id } });
+    res.json({ message: "Comment deleted" });
+  } catch (e) {
+    next(e);
+  }
+});
+
+// ==================== LIKES ====================
+
+// POST /posts/:id/like - Like a post
+router.post("/posts/:id/like", authMiddleware, async (req, res, next) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user!.sub;
+
+    const post = await prisma.post.findUnique({ where: { id: postId } });
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
+
+    // Check if already liked
+    const existingLike = await prisma.postLike.findUnique({
+      where: { postId_userId: { postId, userId } },
+    });
+
+    if (existingLike) {
+      return res.status(400).json({ message: "Already liked" });
+    }
+
+    await prisma.postLike.create({
+      data: { postId, userId },
+    });
+
+    const likeCount = await prisma.postLike.count({ where: { postId } });
+    res.status(201).json({ liked: true, likeCount });
+  } catch (e) {
+    next(e);
+  }
+});
+
+// DELETE /posts/:id/like - Unlike a post
+router.delete("/posts/:id/like", authMiddleware, async (req, res, next) => {
+  try {
+    const postId = req.params.id;
+    const userId = req.user!.sub;
+
+    const existingLike = await prisma.postLike.findUnique({
+      where: { postId_userId: { postId, userId } },
+    });
+
+    if (!existingLike) {
+      return res.status(400).json({ message: "Not liked" });
+    }
+
+    await prisma.postLike.delete({
+      where: { postId_userId: { postId, userId } },
+    });
+
+    const likeCount = await prisma.postLike.count({ where: { postId } });
+    res.json({ liked: false, likeCount });
+  } catch (e) {
+    next(e);
+  }
+});
+
+// GET /posts/:id/likes - Get like status and count
+router.get("/posts/:id/likes", async (req, res, next) => {
+  try {
+    const postId = req.params.id;
+    const likeCount = await prisma.postLike.count({ where: { postId } });
+    res.json({ likeCount });
   } catch (e) {
     next(e);
   }

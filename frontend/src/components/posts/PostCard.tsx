@@ -1,20 +1,85 @@
 import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { authAtom } from '../../store/auth';
 import { Card } from '../Card';
-import { type Post } from '../../api/client';
-import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, ThumbsUp } from 'lucide-react';
+import { type Post, type Comment, likePost, unlikePost, getPostComments, addComment, deleteComment } from '../../api/client';
+import { Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, ThumbsUp, Send, X, Trash2 } from 'lucide-react';
 
 export interface PostCardProps {
     post: Post;
 }
 
 const PostCard: React.FC<PostCardProps> = ({ post }) => {
+    const auth = useRecoilValue(authAtom);
     const [liked, setLiked] = React.useState(false);
     const [saved, setSaved] = React.useState(false);
-    const [likeCount, setLikeCount] = React.useState(Math.floor(Math.random() * 50) + 1);
+    const [likeCount, setLikeCount] = React.useState(post.likeCount || 0);
+    const [showComments, setShowComments] = React.useState(false);
+    const [comments, setComments] = React.useState<Comment[]>([]);
+    const [commentText, setCommentText] = React.useState('');
+    const [loadingComments, setLoadingComments] = React.useState(false);
+    const [submittingComment, setSubmittingComment] = React.useState(false);
 
-    const handleLike = () => {
-        setLiked(!liked);
-        setLikeCount(prev => liked ? prev - 1 : prev + 1);
+    const handleLike = async () => {
+        if (!auth.token) return;
+        try {
+            if (liked) {
+                const res = await unlikePost(auth.token, post.id);
+                setLikeCount(res.likeCount);
+                setLiked(false);
+            } else {
+                const res = await likePost(auth.token, post.id);
+                setLikeCount(res.likeCount);
+                setLiked(true);
+            }
+        } catch (err) {
+            console.error('Failed to like/unlike:', err);
+        }
+    };
+
+    const loadComments = async () => {
+        setLoadingComments(true);
+        try {
+            const data = await getPostComments(post.id);
+            setComments(data);
+        } catch (err) {
+            console.error('Failed to load comments:', err);
+        } finally {
+            setLoadingComments(false);
+        }
+    };
+
+    const handleToggleComments = () => {
+        if (!showComments) {
+            loadComments();
+        }
+        setShowComments(!showComments);
+    };
+
+    const handleSubmitComment = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!auth.token || !commentText.trim()) return;
+        
+        setSubmittingComment(true);
+        try {
+            const newComment = await addComment(auth.token, post.id, commentText.trim());
+            setComments(prev => [newComment, ...prev]);
+            setCommentText('');
+        } catch (err) {
+            console.error('Failed to add comment:', err);
+        } finally {
+            setSubmittingComment(false);
+        }
+    };
+
+    const handleDeleteComment = async (commentId: string) => {
+        if (!auth.token) return;
+        try {
+            await deleteComment(auth.token, commentId);
+            setComments(prev => prev.filter(c => c.id !== commentId));
+        } catch (err) {
+            console.error('Failed to delete comment:', err);
+        }
     };
 
     const formatDate = (dateStr: string) => {
@@ -46,11 +111,19 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
             {/* Header */}
             <div className="p-4 pb-3 flex items-start justify-between gap-3">
                 <div className="flex items-center gap-3">
-                    <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-blue-600 text-white flex items-center justify-center text-lg font-bold shadow-sm">
-                        {post.userId?.slice(0, 2).toUpperCase() || 'U'}
-                    </div>
+                    {post.user?.avatarUrl ? (
+                        <img
+                            src={post.user.avatarUrl}
+                            alt={post.user.name}
+                            className="h-12 w-12 rounded-full object-cover"
+                        />
+                    ) : (
+                        <div className="h-12 w-12 rounded-full bg-gradient-to-br from-primary to-blue-600 text-white flex items-center justify-center text-lg font-bold shadow-sm">
+                            {post.user?.name?.charAt(0).toUpperCase() || 'U'}
+                        </div>
+                    )}
                     <div className="flex-1 min-w-0">
-                        <p className="font-semibold text-sm truncate">User</p>
+                        <p className="font-semibold text-sm truncate">{post.user?.name || 'User'}</p>
                         <p className="text-xs text-muted-foreground">{formatDate(post.createdAt)}</p>
                     </div>
                 </div>
@@ -108,22 +181,31 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                     </div>
                     <span>{likeCount}</span>
                 </div>
-                <span>{Math.floor(Math.random() * 10)} comments</span>
+                <button onClick={handleToggleComments} className="hover:underline">
+                    {post.commentCount || comments.length} comments
+                </button>
             </div>
 
             {/* Actions */}
             <div className="px-2 py-1.5 border-t border-border/50 flex items-center justify-around">
                 <button
                     onClick={handleLike}
+                    disabled={!auth.token}
                     className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg transition-colors ${liked
                         ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/20'
                         : 'text-muted-foreground hover:bg-muted/10'
-                        }`}
+                        } ${!auth.token ? 'opacity-50 cursor-not-allowed' : ''}`}
                 >
                     <ThumbsUp size={18} className={liked ? 'fill-current' : ''} />
                     <span className="text-sm font-medium">Like</span>
                 </button>
-                <button className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg text-muted-foreground hover:bg-muted/10 transition-colors">
+                <button 
+                    onClick={handleToggleComments}
+                    className={`flex-1 flex items-center justify-center gap-2 py-2.5 rounded-lg transition-colors ${showComments
+                        ? 'text-blue-600 bg-blue-50 dark:bg-blue-900/20'
+                        : 'text-muted-foreground hover:bg-muted/10'
+                        }`}
+                >
                     <MessageCircle size={18} />
                     <span className="text-sm font-medium">Comment</span>
                 </button>
@@ -142,6 +224,73 @@ const PostCard: React.FC<PostCardProps> = ({ post }) => {
                     <span className="text-sm font-medium">Save</span>
                 </button>
             </div>
+
+            {/* Comments Section */}
+            {showComments && (
+                <div className="border-t border-border/50">
+                    {/* Comment Input */}
+                    {auth.token && (
+                        <form onSubmit={handleSubmitComment} className="p-4 flex gap-2">
+                            <input
+                                type="text"
+                                value={commentText}
+                                onChange={(e) => setCommentText(e.target.value)}
+                                placeholder="Write a comment..."
+                                className="flex-1 px-3 py-2 text-sm bg-muted/20 rounded-full border border-border/50 focus:outline-none focus:border-primary"
+                            />
+                            <button
+                                type="submit"
+                                disabled={!commentText.trim() || submittingComment}
+                                className="p-2 rounded-full bg-primary text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-primary/90 transition-colors"
+                            >
+                                <Send size={16} />
+                            </button>
+                        </form>
+                    )}
+
+                    {/* Comments List */}
+                    <div className="px-4 pb-4 space-y-3 max-h-64 overflow-y-auto">
+                        {loadingComments ? (
+                            <p className="text-sm text-muted-foreground text-center py-2">Loading comments...</p>
+                        ) : comments.length === 0 ? (
+                            <p className="text-sm text-muted-foreground text-center py-2">No comments yet. Be the first to comment!</p>
+                        ) : (
+                            comments.map((comment) => (
+                                <div key={comment.id} className="flex gap-2 group">
+                                    {comment.user?.avatarUrl ? (
+                                        <img
+                                            src={comment.user.avatarUrl}
+                                            alt={comment.user.name}
+                                            className="h-8 w-8 rounded-full object-cover flex-shrink-0"
+                                        />
+                                    ) : (
+                                        <div className="h-8 w-8 rounded-full bg-gradient-to-br from-primary to-blue-600 text-white flex items-center justify-center text-xs font-bold flex-shrink-0">
+                                            {comment.user?.name?.charAt(0).toUpperCase() || 'U'}
+                                        </div>
+                                    )}
+                                    <div className="flex-1 min-w-0">
+                                        <div className="bg-muted/20 rounded-xl px-3 py-2">
+                                            <p className="text-sm font-semibold">{comment.user?.name || 'User'}</p>
+                                            <p className="text-sm">{comment.content}</p>
+                                        </div>
+                                        <div className="flex items-center gap-2 mt-1 text-xs text-muted-foreground">
+                                            <span>{formatDate(comment.createdAt)}</span>
+                                            {auth.user && comment.userId === auth.user.email && (
+                                                <button
+                                                    onClick={() => handleDeleteComment(comment.id)}
+                                                    className="opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-600 transition-opacity"
+                                                >
+                                                    <Trash2 size={12} />
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))
+                        )}
+                    </div>
+                </div>
+            )}
         </Card>
     );
 };

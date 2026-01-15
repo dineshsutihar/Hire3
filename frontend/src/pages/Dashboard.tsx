@@ -8,6 +8,7 @@ import { MyApplications } from './MyApplications';
 import ManageJobs from './ManageJobs';
 import { Briefcase, Search, FileText, Settings, Plus, TrendingUp, Users, Clock, ArrowRight, CheckCircle } from 'lucide-react';
 import Button from '../components/Button';
+import { getDashboardStats, type DashboardStats } from '../api/client';
 
 type ActiveSection = 'overview' | 'find-jobs' | 'create-jobs' | 'my-applications' | 'manage-jobs';
 
@@ -64,6 +65,18 @@ const QuickAction: React.FC<QuickActionProps> = ({ icon, title, description, onC
 export const Dashboard = () => {
     const auth = useRecoilValue(authAtom);
     const [activeSection, setActiveSection] = React.useState<ActiveSection>('overview');
+    const [stats, setStats] = React.useState<DashboardStats | null>(null);
+    const [statsLoading, setStatsLoading] = React.useState(true);
+
+    React.useEffect(() => {
+        if (auth.token) {
+            setStatsLoading(true);
+            getDashboardStats(auth.token)
+                .then(setStats)
+                .catch(console.error)
+                .finally(() => setStatsLoading(false));
+        }
+    }, [auth.token]);
 
     const navigationItems = [
         {
@@ -121,26 +134,26 @@ export const Dashboard = () => {
                             <QuickStat
                                 icon={<Briefcase size={20} />}
                                 label="Active Jobs"
-                                value={0}
-                                trend="+2 this week"
+                                value={statsLoading ? '...' : stats?.activeJobs ?? 0}
+                                trend={stats?.recentJobs ? `+${stats.recentJobs} this week` : undefined}
                                 trendUp={true}
                             />
                             <QuickStat
                                 icon={<Users size={20} />}
                                 label="Total Applicants"
-                                value={0}
-                                trend="+5 new"
+                                value={statsLoading ? '...' : stats?.totalApplicants ?? 0}
+                                trend={stats?.recentApplications ? `+${stats.recentApplications} new` : undefined}
                                 trendUp={true}
                             />
                             <QuickStat
                                 icon={<FileText size={20} />}
                                 label="My Applications"
-                                value={0}
+                                value={statsLoading ? '...' : stats?.myApplications ?? 0}
                             />
                             <QuickStat
                                 icon={<Clock size={20} />}
                                 label="Pending Reviews"
-                                value={0}
+                                value={statsLoading ? '...' : stats?.pendingReviews ?? 0}
                             />
                         </div>
 

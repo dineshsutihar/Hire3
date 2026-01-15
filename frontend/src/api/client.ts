@@ -399,6 +399,12 @@ export interface PostInput {
   image?: File; // Optional image file
 }
 
+export interface PostUser {
+  id: string;
+  name: string;
+  avatarUrl?: string | null;
+}
+
 export interface Post {
   id: string;
   title: string;
@@ -407,6 +413,19 @@ export interface Post {
   tags: string[];
   imageUrl?: string | null;
   userId: string;
+  user?: PostUser;
+  likeCount: number;
+  commentCount: number;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface Comment {
+  id: string;
+  content: string;
+  postId: string;
+  userId: string;
+  user: PostUser;
   createdAt: string;
   updatedAt: string;
 }
@@ -422,7 +441,8 @@ export async function listPosts(opts?: {
   if (opts?.tag) q.set("tag", opts.tag);
   if (opts?.type) q.set("type", opts.type);
   if (opts?.userId) q.set("userId", opts.userId);
-  return request<Post[]>(`/posts?${q.toString()}`);
+  const res = await request<{ posts: Post[] }>(`/posts?${q.toString()}`);
+  return res.posts;
 }
 
 export async function createPost(
@@ -455,6 +475,71 @@ export async function createPost(
 
 export async function getMyPosts(token: string): Promise<Post[]> {
   return request<Post[]>(`/my-posts`, {}, token);
+}
+
+// Post Comments
+export async function getPostComments(postId: string): Promise<Comment[]> {
+  return request<Comment[]>(`/posts/${postId}/comments`);
+}
+
+export async function addComment(
+  token: string,
+  postId: string,
+  content: string
+): Promise<Comment> {
+  return request<Comment>(
+    `/posts/${postId}/comments`,
+    { method: "POST", body: JSON.stringify({ content }) },
+    token
+  );
+}
+
+export async function deleteComment(
+  token: string,
+  commentId: string
+): Promise<void> {
+  await request<{ message: string }>(
+    `/comments/${commentId}`,
+    { method: "DELETE" },
+    token
+  );
+}
+
+// Post Likes
+export async function likePost(
+  token: string,
+  postId: string
+): Promise<{ liked: boolean; likeCount: number }> {
+  return request<{ liked: boolean; likeCount: number }>(
+    `/posts/${postId}/like`,
+    { method: "POST" },
+    token
+  );
+}
+
+export async function unlikePost(
+  token: string,
+  postId: string
+): Promise<{ liked: boolean; likeCount: number }> {
+  return request<{ liked: boolean; likeCount: number }>(
+    `/posts/${postId}/like`,
+    { method: "DELETE" },
+    token
+  );
+}
+
+// Dashboard Stats
+export interface DashboardStats {
+  activeJobs: number;
+  totalApplicants: number;
+  myApplications: number;
+  pendingReviews: number;
+  recentJobs: number;
+  recentApplications: number;
+}
+
+export async function getDashboardStats(token: string): Promise<DashboardStats> {
+  return request<DashboardStats>(`/dashboard/stats`, {}, token);
 }
 
 // Payments
@@ -497,6 +582,12 @@ export const api = {
   listPosts,
   createPost,
   getMyPosts,
+  getPostComments,
+  addComment,
+  deleteComment,
+  likePost,
+  unlikePost,
+  getDashboardStats,
   listMyPayments,
   getPaymentRequirements,
 };
