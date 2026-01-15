@@ -429,7 +429,7 @@ export async function createPost(
   token: string,
   input: PostInput
 ): Promise<Post> {
-  // Use FormData if image is provided
+  // Use FormData only if image is provided
   if (input.image) {
     const fd = new FormData();
     fd.append("title", input.title);
@@ -440,13 +440,17 @@ export async function createPost(
     return request<Post>(`/posts`, { method: "POST", body: fd }, token);
   }
 
-  // Regular JSON request without image
-  const fd = new FormData();
-  fd.append("title", input.title);
-  fd.append("content", input.content);
-  fd.append("type", input.type);
-  fd.append("tags", JSON.stringify(input.tags || []));
-  return request<Post>(`/posts`, { method: "POST", body: fd }, token);
+  // Regular JSON request without image (simpler, more reliable)
+  return request<Post>(
+    `/posts`,
+    { method: "POST", body: JSON.stringify({
+      title: input.title,
+      content: input.content,
+      type: input.type,
+      tags: input.tags || []
+    }) },
+    token
+  );
 }
 
 export async function getMyPosts(token: string): Promise<Post[]> {

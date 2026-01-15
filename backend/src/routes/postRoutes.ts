@@ -79,7 +79,7 @@ router.get("/posts/:id", async (req, res, next) => {
   }
 });
 
-// POST /posts (auth) - supports image upload
+// POST /posts (auth) - supports both JSON and FormData with image upload
 router.post(
   "/posts",
   authMiddleware,
@@ -87,18 +87,24 @@ router.post(
   async (req, res, next) => {
     try {
       const { title, content, type } = req.body;
-      // Parse tags from JSON string (FormData sends as string)
+      
+      // Parse tags - could be JSON string from FormData or array from JSON body
       let tags: string[] = [];
       try {
-        tags = req.body.tags ? JSON.parse(req.body.tags) : [];
+        if (typeof req.body.tags === "string") {
+          tags = JSON.parse(req.body.tags);
+        } else if (Array.isArray(req.body.tags)) {
+          tags = req.body.tags;
+        }
       } catch {
         tags = [];
       }
 
-      if (!title || !content || !type)
+      if (!title || !content || !type) {
         return res
           .status(400)
           .json({ message: "title, content, type required" });
+      }
 
       // Process image if uploaded
       let imageUrl: string | null = null;

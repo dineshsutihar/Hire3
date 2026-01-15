@@ -1,10 +1,6 @@
 import { prisma } from "../prisma.js";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { existsSync, readFileSync } from "fs";
-import { getDocument, GlobalWorkerOptions } from "pdfjs-dist/legacy/build/pdf.mjs";
-
-// Disable worker for Node.js environment
-GlobalWorkerOptions.workerSrc = "";
 
 export async function extractTextFromFile(
   filePath: string,
@@ -20,9 +16,13 @@ export async function extractTextFromFile(
   }
 
   try {
+    // Dynamic import to avoid issues at startup
+    const pdfjs = await import("pdfjs-dist/legacy/build/pdf.mjs");
+    pdfjs.GlobalWorkerOptions.workerSrc = "";
+
     const dataBuffer = readFileSync(filePath);
     const data = new Uint8Array(dataBuffer);
-    const pdf = await getDocument({ data, useSystemFonts: true }).promise;
+    const pdf = await pdfjs.getDocument({ data, useSystemFonts: true }).promise;
 
     let fullText = "";
     for (let i = 1; i <= pdf.numPages; i++) {
