@@ -3,7 +3,8 @@ import { useRecoilValue } from 'recoil';
 import { authAtom } from '../store/auth';
 import Button from '../components/Button';
 import { Card } from '../components/Card';
-import LoadingSpinner from '../components/LoadingSpinner';
+import { PageLoading, SkeletonCard } from '../components/LoadingSpinner';
+import { EmptyState } from '../components/ErrorBoundary';
 import { useToast } from '../components/Toast';
 import { getUserJobs, getJobApplicants, getJobAnalytics, updateJob } from '../api/client';
 import { updateApplicantStatus as updateApplicantStatusAPI } from '../api/client';
@@ -11,6 +12,7 @@ import JobStats from '../components/managejobs/JobStats';
 import ApplicantList from '../components/managejobs/ApplicantList';
 import ProfileModal from '../components/managejobs/ProfileModal';
 import JobCard from '../components/managejobs/JobCard';
+import { ArrowLeft, Briefcase, Plus, Users, CheckCircle, XCircle, Clock } from 'lucide-react';
 
 interface JobPosting {
     id: string;
@@ -210,31 +212,95 @@ const ManageJobs: React.FC = () => {
     if (selectedJob) {
         return (
             <div className="mx-auto max-w-7xl px-4 py-8">
-                <div className="mb-6 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
-                    <div className="flex items-center gap-4">
-                        <Button variant="outline" onClick={() => setSelectedJob(null)}>
-                            ← Back to Jobs
-                        </Button>
+                {/* Header */}
+                <div className="mb-8">
+                    <Button
+                        variant="outline"
+                        onClick={() => setSelectedJob(null)}
+                        className="mb-4"
+                    >
+                        <ArrowLeft className="h-4 w-4 mr-2" />
+                        Back to Jobs
+                    </Button>
+
+                    <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
                         <div>
-                            <h1 className="text-3xl font-bold mb-1">{selectedJob.title}</h1>
+                            <h1 className="text-3xl font-bold mb-2">{selectedJob.title}</h1>
+                            <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                                {selectedJob.location && (
+                                    <span className="flex items-center gap-1">
+                                        <Briefcase className="h-4 w-4" />
+                                        {selectedJob.location}
+                                    </span>
+                                )}
+                                {selectedJob.workMode && (
+                                    <span>• {selectedJob.workMode}</span>
+                                )}
+                                {selectedJob.budget && (
+                                    <span>• {selectedJob.budget}</span>
+                                )}
+                            </div>
+                        </div>
+
+                        <div className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm font-medium ${selectedJob.status === 'active'
+                                ? 'bg-green-100 text-green-700'
+                                : 'bg-gray-100 text-gray-600'
+                            }`}>
+                            <span className={`w-2 h-2 rounded-full ${selectedJob.status === 'active' ? 'bg-green-500' : 'bg-gray-400'
+                                }`} />
+                            {selectedJob.status.charAt(0).toUpperCase() + selectedJob.status.slice(1)}
                         </div>
                     </div>
                 </div>
-                {/* Applicant Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <Card className="p-4 text-center">
-                        <div className="text-2xl font-bold text-primary">{applicants.length}</div>
-                        <div className="text-sm text-muted-foreground">Total</div>
+
+                {/* Applicant Stats Cards */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <Card className="p-4">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-blue-100 rounded-lg">
+                                <Users className="h-5 w-5 text-blue-600" />
+                            </div>
+                            <div>
+                                <div className="text-2xl font-bold">{applicants.length}</div>
+                                <div className="text-xs text-muted-foreground">Total</div>
+                            </div>
+                        </div>
                     </Card>
-                    <Card className="p-4 text-center">
-                        <div className="text-2xl font-bold text-green-600">{applicants.filter(a => a.status === 'accepted').length}</div>
-                        <div className="text-sm text-muted-foreground">Accepted</div>
+                    <Card className="p-4">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-yellow-100 rounded-lg">
+                                <Clock className="h-5 w-5 text-yellow-600" />
+                            </div>
+                            <div>
+                                <div className="text-2xl font-bold">{applicants.filter(a => a.status === 'applied').length}</div>
+                                <div className="text-xs text-muted-foreground">Pending</div>
+                            </div>
+                        </div>
                     </Card>
-                    <Card className="p-4 text-center">
-                        <div className="text-2xl font-bold text-red-600">{applicants.filter(a => a.status === 'rejected').length}</div>
-                        <div className="text-sm text-muted-foreground">Rejected</div>
+                    <Card className="p-4">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-green-100 rounded-lg">
+                                <CheckCircle className="h-5 w-5 text-green-600" />
+                            </div>
+                            <div>
+                                <div className="text-2xl font-bold">{applicants.filter(a => a.status === 'accepted').length}</div>
+                                <div className="text-xs text-muted-foreground">Accepted</div>
+                            </div>
+                        </div>
+                    </Card>
+                    <Card className="p-4">
+                        <div className="flex items-center gap-3">
+                            <div className="p-2 bg-red-100 rounded-lg">
+                                <XCircle className="h-5 w-5 text-red-600" />
+                            </div>
+                            <div>
+                                <div className="text-2xl font-bold">{applicants.filter(a => a.status === 'rejected').length}</div>
+                                <div className="text-xs text-muted-foreground">Rejected</div>
+                            </div>
+                        </div>
                     </Card>
                 </div>
+
                 <ApplicantList
                     applicants={applicants}
                     applicantsLoading={applicantsLoading}
@@ -246,11 +312,14 @@ const ManageJobs: React.FC = () => {
                     onAccept={id => updateApplicantStatus(id, 'accepted')}
                     onReject={id => updateApplicantStatus(id, 'rejected')}
                 />
+
                 <ProfileModal
                     open={profileModal.open}
                     applicant={profileModal.applicant}
                     onClose={() => setProfileModal({ open: false, applicant: null })}
                     getStatusColor={getStatusColor}
+                    onAccept={id => updateApplicantStatus(id, 'accepted')}
+                    onReject={id => updateApplicantStatus(id, 'rejected')}
                 />
             </div>
         );
@@ -260,22 +329,50 @@ const ManageJobs: React.FC = () => {
 
     return (
         <div className="mx-auto max-w-6xl px-4 py-8">
+            {/* Page Header */}
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+                <div>
+                    <h1 className="text-3xl font-bold mb-2">Manage Jobs</h1>
+                    <p className="text-muted-foreground">Track your job postings and review applicants</p>
+                </div>
+                <Button onClick={() => window.location.href = '/dashboard'}>
+                    <Plus className="h-4 w-4 mr-2" />
+                    Post New Job
+                </Button>
+            </div>
+
             <JobStats jobs={jobs} totalApplications={totalApplications} />
+
+            {/* Jobs List */}
             <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                    <h2 className="text-xl font-semibold flex items-center gap-2">
+                        <Briefcase className="h-5 w-5 text-primary" />
+                        Your Job Postings
+                    </h2>
+                    <span className="text-sm text-muted-foreground">
+                        {jobs.length} {jobs.length === 1 ? 'job' : 'jobs'} total
+                    </span>
+                </div>
+
                 {loading ? (
-                    <div className="flex items-center justify-center py-12">
-                        <LoadingSpinner />
-                        <span className="ml-2 text-muted-foreground">Loading your jobs...</span>
+                    <div className="space-y-4">
+                        {[1, 2, 3].map(i => (
+                            <SkeletonCard key={i} className="h-48" />
+                        ))}
                     </div>
                 ) : jobs.length === 0 ? (
-                    <Card className="p-8 text-center">
-                        <div className="text-muted-foreground mb-4">
-                            You haven't posted any jobs yet.
-                        </div>
-                        <Button onClick={() => window.location.href = '/create-jobs'}>
-                            Post Your First Job
-                        </Button>
-                    </Card>
+                    <EmptyState
+                        icon={<Briefcase className="h-12 w-12" />}
+                        title="No jobs posted yet"
+                        description="Create your first job posting to start finding talented candidates for your team."
+                        action={
+                            <Button onClick={() => window.location.href = '/dashboard'}>
+                                <Plus className="h-4 w-4 mr-2" />
+                                Post Your First Job
+                            </Button>
+                        }
+                    />
                 ) : (
                     jobs.map(job => (
                         <JobCard
