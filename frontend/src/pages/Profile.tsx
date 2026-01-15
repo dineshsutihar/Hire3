@@ -7,7 +7,7 @@ import { SkillInput } from '../components/SkillInput';
 import { Card, CardTitle } from '../components/Card';
 import React from 'react';
 import { useToast } from '../components/Toast';
-import { getProfile, updateProfile, parseResume, getJobMatches, JobMatch } from '../api/client';
+import { getProfile, updateProfile, parseResume, uploadAvatar, getJobMatches, JobMatch } from '../api/client';
 import LoadingSpinner from '../components/LoadingSpinner';
 import {
     User,
@@ -24,7 +24,8 @@ import {
     RefreshCw,
     Star,
     Award,
-    Shield
+    Shield,
+    ImagePlus
 } from 'lucide-react';
 
 interface ProfileForm {
@@ -57,6 +58,7 @@ export const Profile = () => {
     const [resumeName, setResumeName] = React.useState<string | null>(null);
     const [parsing, setParsing] = React.useState(false);
     const [saving, setSaving] = React.useState(false);
+    const [uploadingAvatar, setUploadingAvatar] = React.useState(false);
     const [parsedSections, setParsedSections] = React.useState<Record<string, string[]>>({});
     const [matches, setMatches] = React.useState<JobMatch[] | null>(null);
     const [loadingMatches, setLoadingMatches] = React.useState(false);
@@ -115,6 +117,35 @@ export const Profile = () => {
         })();
     }, [auth.token, auth.user, setAuth]);
 
+    const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file || !auth.token) return;
+
+        // Validate file type
+        const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+        if (!allowedTypes.includes(file.type)) {
+            notify({ type: 'error', title: 'Invalid file type', description: 'Please upload a JPEG, PNG, GIF, or WebP image.' });
+            return;
+        }
+
+        // Validate file size (5MB)
+        if (file.size > 5 * 1024 * 1024) {
+            notify({ type: 'error', title: 'File too large', description: 'Maximum file size is 5MB.' });
+            return;
+        }
+
+        setUploadingAvatar(true);
+        try {
+            const updated = await uploadAvatar(auth.token, file);
+            setAuth(prev => ({ ...prev, user: updated }));
+            notify({ type: 'success', title: 'Avatar updated', description: 'Your profile picture has been updated.' });
+        } catch (e: any) {
+            notify({ type: 'error', title: 'Upload failed', description: e?.message || 'Please try again.' });
+        } finally {
+            setUploadingAvatar(false);
+        }
+    };
+
     const handleParseResume = async () => {
         if (!auth.token) return;
         const fileInput = document.querySelector('input[type=file][name=resume]') as HTMLInputElement;
@@ -172,7 +203,7 @@ export const Profile = () => {
                     <div className="relative group">
                         {user?.avatarUrl ? (
                             <img
-                                src={user.avatarUrl}
+                                src={user.avatarUrl.startsWith('http') ? user.avatarUrl : `${import.meta.env.VITE_API_BASE?.replace('/api', '')}${user.avatarUrl}`}
                                 alt="Profile"
                                 className="h-24 w-24 rounded-2xl object-cover border-4 border-white dark:border-neutral-800 shadow-lg"
                             />
@@ -181,12 +212,24 @@ export const Profile = () => {
                                 {user?.name?.[0]?.toUpperCase() || '?'}
                             </div>
                         )}
-                        <button
-                            className="absolute -bottom-2 -right-2 p-2 bg-white dark:bg-neutral-800 rounded-full shadow-md border hover:bg-gray-50 dark:hover:bg-neutral-700 transition-colors"
+                        <input
+                            type="file"
+                            id="avatar-upload"
+                            accept="image/jpeg,image/png,image/gif,image/webp"
+                            onChange={handleAvatarUpload}
+                            className="hidden"
+                        />
+                        <label
+                            htmlFor="avatar-upload"
+                            className={`absolute -bottom-2 -right-2 p-2 bg-white dark:bg-neutral-800 rounded-full shadow-md border hover:bg-gray-50 dark:hover:bg-neutral-700 transition-colors cursor-pointer ${uploadingAvatar ? 'opacity-50 pointer-events-none' : ''}`}
                             title="Change avatar"
                         >
-                            <Camera className="h-4 w-4 text-muted-foreground" />
-                        </button>
+                            {uploadingAvatar ? (
+                                <RefreshCw className="h-4 w-4 text-muted-foreground animate-spin" />
+                            ) : (
+                                <Camera className="h-4 w-4 text-muted-foreground" />
+                            )}
+                        </label>
                     </div>
 
                     {/* Name and Email */}
