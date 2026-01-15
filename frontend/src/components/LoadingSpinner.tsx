@@ -24,8 +24,8 @@ export const PageLoading: React.FC<{ message?: string }> = ({ message = 'Loading
 );
 
 // Skeleton loading components
-export const SkeletonCard: React.FC = () => (
-    <div className="card-surface p-5 animate-pulse">
+export const SkeletonCard: React.FC<{ className?: string }> = ({ className }) => (
+    <div className={`card-surface p-5 animate-pulse ${className || ''}`}>
         <div className="flex items-center gap-3 mb-4">
             <div className="h-10 w-10 rounded-full bg-muted/20" />
             <div className="flex-1 space-y-2">
