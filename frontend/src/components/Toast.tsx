@@ -26,6 +26,7 @@ const toastConfig = {
         borderColor: 'border-green-200 dark:border-green-800',
         iconColor: 'text-green-600 dark:text-green-400',
         titleColor: 'text-green-800 dark:text-green-200',
+        descColor: 'text-green-700 dark:text-green-300',
     },
     error: {
         icon: XCircle,
@@ -33,6 +34,7 @@ const toastConfig = {
         borderColor: 'border-red-200 dark:border-red-800',
         iconColor: 'text-red-600 dark:text-red-400',
         titleColor: 'text-red-800 dark:text-red-200',
+        descColor: 'text-red-700 dark:text-red-300',
     },
     warning: {
         icon: AlertTriangle,
@@ -40,6 +42,7 @@ const toastConfig = {
         borderColor: 'border-amber-200 dark:border-amber-800',
         iconColor: 'text-amber-600 dark:text-amber-400',
         titleColor: 'text-amber-800 dark:text-amber-200',
+        descColor: 'text-amber-700 dark:text-amber-300',
     },
     info: {
         icon: Info,
@@ -47,6 +50,7 @@ const toastConfig = {
         borderColor: 'border-blue-200 dark:border-blue-800',
         iconColor: 'text-blue-600 dark:text-blue-400',
         titleColor: 'text-blue-800 dark:text-blue-200',
+        descColor: 'text-blue-700 dark:text-blue-300',
     },
 };
 
@@ -95,15 +99,15 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
                                     <div className="flex-1 min-w-0">
                                         <p className={`text-sm font-semibold ${config.titleColor}`}>{t.title}</p>
                                         {t.description && (
-                                            <p className="text-xs text-muted-foreground mt-1 leading-relaxed">{t.description}</p>
+                                            <p className={`text-xs mt-1 leading-relaxed ${config.descColor}`}>{t.description}</p>
                                         )}
                                     </div>
                                     <button
                                         onClick={() => remove(t.id)}
-                                        className="flex-shrink-0 p-1 rounded-lg hover:bg-black/5 dark:hover:bg-white/10 transition-colors"
+                                        className={`flex-shrink-0 p-1 rounded-lg hover:bg-black/10 dark:hover:bg-white/10 transition-colors ${config.iconColor}`}
                                         aria-label="Dismiss notification"
                                     >
-                                        <X className="h-4 w-4 text-muted-foreground" />
+                                        <X className="h-4 w-4" />
                                     </button>
                                 </div>
                                 {/* Progress bar */}
