@@ -233,27 +233,13 @@ npm run build      # Production build
 npm run preview    # Preview production
 ```
 
-# 🔄 API Workflow
-
-```text
-Frontend (React)
-        ↓
-REST API Requests
-        ↓
-Backend (Express + TypeScript)
-        ↓
-MongoDB Database
-        ↓
-Response Returned to Frontend
-```
-
 ---
 
-# ☁️ CI/CD Workflow (Vercel)
+## ☁️ CI/CD Workflow (Vercel)
 
 This project uses Vercel for deployment and Continuous Integration / Continuous Deployment (CI/CD).
 
-## CI/CD Pipeline Flow
+### CI/CD Pipeline Flow
 
 ```text
 Developer Pushes Code to GitHub
@@ -271,7 +257,7 @@ Production Deployment Created
 Live Application Updated
 ```
 
-## CI/CD Features
+### CI/CD Features
 
 * Automatic deployments on every push
 * Preview deployments for pull requests
@@ -279,42 +265,3 @@ Live Application Updated
 * Production-ready hosting
 * GitHub integration
 * Automatic build and deployment pipeline
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-# 👨‍💻 Author
-
-Developed by <a href="https://github.com/dineshsutihar">Dinesh Kumar Sutihar</a>
-
-* GitHub: [https://github.com/dineshsutihar](https://github.com/dineshsutihar)
-* Portfolio: [https://dineshsutihar.me/](https://dineshsutihar.me/)
-
----
-
-# ⭐ Support
-
-If you found this project useful, consider giving it a ⭐ on GitHub.
-
-```
-
-Based on the current README, I added:
-- Proper project overview
-- Full tech stack section
-- Installation/setup guide
-- Environment variables
-- Steps to run frontend/backend
-- API workflow
-- Complete Vercel CI/CD workflow
-- Future improvements
-- Better structure and formatting
-```
-
-
----
-
