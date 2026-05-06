@@ -235,3 +235,33 @@ npm run preview    # Preview production
 
 ---
 
+## ☁️ CI/CD Workflow (Vercel)
+
+This project uses Vercel for deployment and Continuous Integration / Continuous Deployment (CI/CD).
+
+### CI/CD Pipeline Flow
+
+```text
+Developer Pushes Code to GitHub
+                ↓
+GitHub Repository Updated
+                ↓
+Vercel Detects Changes Automatically
+                ↓
+Build Process Starts
+                ↓
+Frontend & Backend Validated
+                ↓
+Production Deployment Created
+                ↓
+Live Application Updated
+```
+
+### CI/CD Features
+
+* Automatic deployments on every push
+* Preview deployments for pull requests
+* Fast rollback support
+* Production-ready hosting
+* GitHub integration
+* Automatic build and deployment pipeline
